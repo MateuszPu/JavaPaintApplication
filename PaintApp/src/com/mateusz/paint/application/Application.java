@@ -1,7 +1,6 @@
 package com.mateusz.paint.application;
 
 import javax.swing.SwingUtilities;
-
 import com.mateusz.paint.controller.Controller;
 import com.mateusz.paint.model.Model;
 import com.mateusz.paint.view.MainFrame;

@@ -7,6 +7,7 @@ import com.mateusz.paint.model.Model;
 public class MainFrame extends JFrame
 {
 
+	final TopMenu menuBar;
 	private Model model;
 
 	public MainFrame(Model model) throws HeadlessException
@@ -14,9 +15,13 @@ public class MainFrame extends JFrame
 		super("Paint Application");
 		this.model = model;
 
-		setSize(500, 800);
+		setSize(500, 500);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
+
+		menuBar = new TopMenu();
+		menuBar.setTopMenu();
+		setJMenuBar(menuBar.getMenuBar());
 	}
 
 }

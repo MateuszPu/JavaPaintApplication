@@ -2,6 +2,7 @@ package com.mateusz.paint.model;
 
 public class Model
 {
+
 	private Shape shape;
 	private Circle circle;
 	private Line line;
