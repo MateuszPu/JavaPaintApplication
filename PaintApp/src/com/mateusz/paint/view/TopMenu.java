@@ -14,7 +14,6 @@ public class TopMenu extends JMenuBar
 
 	public TopMenu()
 	{
-
 	}
 
 	public void setTopMenu()
