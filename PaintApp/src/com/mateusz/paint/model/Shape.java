@@ -3,9 +3,9 @@ package com.mateusz.paint.model;
 import java.awt.Color;
 import java.awt.Graphics;
 
+
 public abstract class Shape
 {
-
 	private int x, y;
 	private int x2, y2;
 	private Color color;
