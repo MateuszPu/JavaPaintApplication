@@ -17,7 +17,6 @@ public class ToolsMenu extends JPanel
 
 	private JButton colorButton, rectangleButton, circleButton, pencilButton, lineButton, rubberButton,
 			fillClosedShapeButton;
-	private Color selectedColor = StaticStuff.shapeColor;
 	private JLabel tipText;
 
 	public ToolsMenu()
@@ -39,8 +38,8 @@ public class ToolsMenu extends JPanel
 		fillClosedShapeButton = new JButton(new ImageIcon("images/tools/fill.png"));
 
 		colorButton = new JButton();
-		colorButton.setForeground(selectedColor);
-		colorButton.setBackground(selectedColor);
+		colorButton.setForeground(StaticStuff.getShapecolor());
+		colorButton.setBackground(StaticStuff.getShapecolor());
 
 		this.add(circleButton);
 		this.add(rectangleButton);
@@ -52,18 +51,10 @@ public class ToolsMenu extends JPanel
 		this.add(colorButton);
 	}
 
-	// @Override
-	// public void actionPerformed(ActionEvent e)
-	// {
-	// selectedColor = JColorChooser.showDialog(ToolsMenu.this, "Chose color:",
-	// selectedColor);
-	// StaticStuff.shapeColor = selectedColor;
-	// colorButton.setForeground(selectedColor);
-	// colorButton.setBackground(selectedColor);
-	// }
-	// });
-	//
-	// }
+	public void addColorListener(ActionListener listenForColorButton)
+	{
+		colorButton.addActionListener(listenForColorButton);
+	}
 
 	public void addRectangleListener(ActionListener listenForRectangleButton)
 	{
@@ -88,6 +79,12 @@ public class ToolsMenu extends JPanel
 	public void addRubberListener(ActionListener listenForRubberButton)
 	{
 		rubberButton.addActionListener(listenForRubberButton);
+	}
+
+	public void setColor(Color color)
+	{
+		colorButton.setForeground(color);
+		colorButton.setBackground(color);
 	}
 
 }

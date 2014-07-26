@@ -3,9 +3,12 @@ package com.mateusz.paint.view;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import com.mateusz.paint.model.Model;
+import com.mateusz.paint.model.StaticStuff;
 
 public class MainFrame extends JFrame
 {
@@ -22,6 +25,44 @@ public class MainFrame extends JFrame
 		initializeToolsMenuComponents();
 		initializeTopMenuComponents();
 		panel = new DrawPanel();
+		panel.addMouseListener(new MouseListener()
+		{
+
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				// System.out.println("clicked");
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				System.out.println(StaticStuff.getShape());
+
+			}
+		});
 
 		JPanel mainLayoutforApplication = new JPanel(new BorderLayout());
 

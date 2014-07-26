@@ -6,11 +6,31 @@ import com.mateusz.paint.enums.ShapeEnum;
 public class StaticStuff
 {
 
-	public static final Color shapeColor = Color.YELLOW;
+	private static Color shapeColor = Color.GREEN;
 	private static ShapeEnum shape = ShapeEnum.RECTANGLE;
 
-	// public void setShape(ShapeEnum shape)
-	// {
-	// this.shape = shape;
-	// }
+	public StaticStuff()
+	{
+	}
+
+	public void setColor(Color color)
+	{
+		StaticStuff.shapeColor = color;
+	}
+
+	public static Color getShapecolor()
+	{
+		return shapeColor;
+	}
+
+	public void setShape(ShapeEnum shape)
+	{
+		StaticStuff.shape = shape;
+	}
+
+	public static ShapeEnum getShape()
+	{
+		return shape;
+	}
+
 }
