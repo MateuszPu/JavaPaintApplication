@@ -1,6 +1,6 @@
 package com.mateusz.paint.enums;
 
-public enum Shape
+public enum ShapeEnum
 {
 	RECTANGLE, CIRCLE, LINE, PENICL, RUBBER, FILLCLOSEDSHAEP
 

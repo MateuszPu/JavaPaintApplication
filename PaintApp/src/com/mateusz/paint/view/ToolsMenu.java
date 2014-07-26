@@ -20,8 +20,6 @@ public class ToolsMenu extends JPanel
 	private Color selectedColor = StaticStuff.shapeColor;
 	private JLabel tipText;
 
-	final static Logger logger = Logger.getLogger(ToolsMenu.class);
-
 	public ToolsMenu()
 	{
 	}
@@ -44,8 +42,6 @@ public class ToolsMenu extends JPanel
 		colorButton.setForeground(selectedColor);
 		colorButton.setBackground(selectedColor);
 
-		initializeButtonsListeners();
-
 		this.add(circleButton);
 		this.add(rectangleButton);
 		this.add(pencilButton);
@@ -56,81 +52,42 @@ public class ToolsMenu extends JPanel
 		this.add(colorButton);
 	}
 
-	public void initializeButtonsListeners()
+	// @Override
+	// public void actionPerformed(ActionEvent e)
+	// {
+	// selectedColor = JColorChooser.showDialog(ToolsMenu.this, "Chose color:",
+	// selectedColor);
+	// StaticStuff.shapeColor = selectedColor;
+	// colorButton.setForeground(selectedColor);
+	// colorButton.setBackground(selectedColor);
+	// }
+	// });
+	//
+	// }
+
+	public void addRectangleListener(ActionListener listenForRectangleButton)
 	{
-		fillClosedShapeButton.addActionListener(new ActionListener()
-		{
+		rectangleButton.addActionListener(listenForRectangleButton);
+	}
 
-			@Override
-			public void actionPerformed(ActionEvent event)
-			{
-				logger.debug("fill closed shape");
-			}
-		});
+	public void addCircleListener(ActionListener listenForCircleButton)
+	{
+		circleButton.addActionListener(listenForCircleButton);
+	}
 
-		rubberButton.addActionListener(new ActionListener()
-		{
+	public void addLineListener(ActionListener listenForLineButton)
+	{
+		lineButton.addActionListener(listenForLineButton);
+	}
 
-			@Override
-			public void actionPerformed(ActionEvent event)
-			{
-				logger.debug("rubber");
-			}
-		});
+	public void addPencilListener(ActionListener listenForPencilButton)
+	{
+		pencilButton.addActionListener(listenForPencilButton);
+	}
 
-		lineButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent event)
-			{
-				logger.debug("line");
-			}
-		});
-
-		pencilButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent event)
-			{
-				logger.debug("pencil");
-			}
-		});
-
-		circleButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent event)
-			{
-				logger.debug("circle");
-			}
-		});
-
-		rectangleButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent event)
-			{
-				logger.debug("rectangle");
-			}
-		});
-
-		colorButton.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				selectedColor = JColorChooser.showDialog(ToolsMenu.this, "Chose color:", selectedColor);
-				StaticStuff.shapeColor = selectedColor;
-				colorButton.setForeground(selectedColor);
-				colorButton.setBackground(selectedColor);
-			}
-		});
-
+	public void addRubberListener(ActionListener listenForRubberButton)
+	{
+		rubberButton.addActionListener(listenForRubberButton);
 	}
 
 }

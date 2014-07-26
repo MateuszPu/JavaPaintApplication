@@ -53,4 +53,9 @@ public class MainFrame extends JFrame
 		toolsMenu.setTools();
 	}
 
+	public ToolsMenu getToolsMenu()
+	{
+		return toolsMenu;
+	}
+
 }

@@ -1,9 +1,8 @@
 package com.mateusz.paint.view;
 
 import java.awt.Color;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import com.mateusz.paint.enums.ShapeEnum;
 
 public class DrawPanel extends JPanel
 {
@@ -12,6 +11,6 @@ public class DrawPanel extends JPanel
 	{
 		setOpaque(true);
 		setBackground(Color.WHITE);
-
 	}
+
 }
