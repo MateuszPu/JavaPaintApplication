@@ -21,10 +21,12 @@ public class Pencil extends Shape
 	public void render(Graphics g)
 	{
 		g.setColor(getColor());
+		int heightSize = 8;
+		int widthSize = 8;
 
 		for (Point p : points)
 		{
-			g.fillOval((int) p.getX(), (int) p.getY(), 8, 8);
+			g.fillOval((int) p.getX(), (int) p.getY(), heightSize, widthSize);
 
 		}
 	}

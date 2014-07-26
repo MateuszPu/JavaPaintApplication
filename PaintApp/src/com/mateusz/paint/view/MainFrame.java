@@ -17,30 +17,40 @@ public class MainFrame extends JFrame
 	public MainFrame(Model model) throws HeadlessException
 	{
 		super("Paint Application");
-		setSize(500, 500);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-//		setResizable(false);
-		setVisible(true);
+		prepareFrame();
+
+		initializeToolsMenuComponents();
+		initializeTopMenuComponents();
+		panel = new DrawPanel();
 
 		JPanel mainLayoutforApplication = new JPanel(new BorderLayout());
-
-		// add tools menu
-		toolsMenu = new ToolsMenu();
-		toolsMenu.setTools();
-
-		// add draw panel
-		panel = new DrawPanel();
 
 		mainLayoutforApplication.add(toolsMenu, BorderLayout.WEST);
 		mainLayoutforApplication.add(panel, BorderLayout.CENTER);
 		this.add(mainLayoutforApplication);
 
-		// add menu bar
+	}
+
+	public void prepareFrame()
+	{
+		setSize(500, 500);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		// setResizable(false);
+		setVisible(true);
+	}
+
+	public void initializeTopMenuComponents()
+	{
 		menuBar = new TopMenu();
 		menuBar.setTopMenu();
 		setJMenuBar(menuBar.getMenuBar());
+	}
 
+	public void initializeToolsMenuComponents()
+	{
+		toolsMenu = new ToolsMenu();
+		toolsMenu.setTools();
 	}
 
 }
