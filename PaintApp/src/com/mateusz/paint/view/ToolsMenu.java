@@ -38,8 +38,8 @@ public class ToolsMenu extends JPanel
 		fillClosedShapeButton = new JButton(new ImageIcon("images/tools/fill.png"));
 
 		colorButton = new JButton();
-		colorButton.setForeground(StaticStuff.getShapecolor());
-		colorButton.setBackground(StaticStuff.getShapecolor());
+		colorButton.setForeground(StaticStuff.getShapeColor());
+		colorButton.setBackground(StaticStuff.getShapeColor());
 
 		this.add(circleButton);
 		this.add(rectangleButton);
@@ -79,6 +79,11 @@ public class ToolsMenu extends JPanel
 	public void addRubberListener(ActionListener listenForRubberButton)
 	{
 		rubberButton.addActionListener(listenForRubberButton);
+	}
+
+	public void addFillClosedShapeListener(ActionListener listenForFillClosedShapeButton)
+	{
+		fillClosedShapeButton.addActionListener(listenForFillClosedShapeButton);
 	}
 
 	public void setColor(Color color)

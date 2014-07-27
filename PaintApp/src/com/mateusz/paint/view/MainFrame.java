@@ -3,6 +3,7 @@ package com.mateusz.paint.view;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JFrame;
@@ -14,7 +15,7 @@ public class MainFrame extends JFrame
 {
 
 	private TopMenu menuBar;
-	private DrawPanel panel;
+	private DrawPanel drawPanel;
 	private ToolsMenu toolsMenu;
 
 	public MainFrame(Model model) throws HeadlessException
@@ -24,50 +25,12 @@ public class MainFrame extends JFrame
 
 		initializeToolsMenuComponents();
 		initializeTopMenuComponents();
-		panel = new DrawPanel();
-		panel.addMouseListener(new MouseListener()
-		{
-
-			@Override
-			public void mouseReleased(MouseEvent e)
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e)
-			{
-				// System.out.println("clicked");
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e)
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e)
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				System.out.println(StaticStuff.getShape());
-
-			}
-		});
+		drawPanel = new DrawPanel();
 
 		JPanel mainLayoutforApplication = new JPanel(new BorderLayout());
 
 		mainLayoutforApplication.add(toolsMenu, BorderLayout.WEST);
-		mainLayoutforApplication.add(panel, BorderLayout.CENTER);
+		mainLayoutforApplication.add(drawPanel, BorderLayout.CENTER);
 		this.add(mainLayoutforApplication);
 
 	}
@@ -98,5 +61,12 @@ public class MainFrame extends JFrame
 	{
 		return toolsMenu;
 	}
+
+	public DrawPanel getDrawPanel()
+	{
+		return drawPanel;
+	}
+
+
 
 }

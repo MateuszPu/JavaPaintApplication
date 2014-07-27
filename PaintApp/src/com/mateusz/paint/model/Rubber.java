@@ -20,11 +20,13 @@ public class Rubber extends Shape
 	@Override
 	public void render(Graphics g)
 	{
+		int width = 20;
+		int height = 20;
 		g.setColor(Color.WHITE);
 
 		for (Point p : points)
 		{
-			g.fillRect((int) p.getX(), (int) p.getY(), 25, 25);
+			g.fillRect((int) p.getX(), (int) p.getY(), width, height);
 		}
 	}
 

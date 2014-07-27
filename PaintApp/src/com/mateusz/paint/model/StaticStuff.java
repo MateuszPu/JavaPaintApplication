@@ -5,32 +5,26 @@ import com.mateusz.paint.enums.ShapeEnum;
 
 public class StaticStuff
 {
+	private static ShapeEnum shapeType = ShapeEnum.RECTANGLE;
+	private static Color shapeColor = Color.BLACK;
 
-	private static Color shapeColor = Color.GREEN;
-	private static ShapeEnum shape = ShapeEnum.RECTANGLE;
-
-	public StaticStuff()
+	public static ShapeEnum getShapeType()
 	{
+		return shapeType;
 	}
 
-	public void setColor(Color color)
+	public static void setShapeType(ShapeEnum shapeType)
 	{
-		StaticStuff.shapeColor = color;
+		StaticStuff.shapeType = shapeType;
 	}
 
-	public static Color getShapecolor()
+	public static Color getShapeColor()
 	{
 		return shapeColor;
 	}
 
-	public void setShape(ShapeEnum shape)
+	public static void setShapeColor(Color shapeColor)
 	{
-		StaticStuff.shape = shape;
+		StaticStuff.shapeColor = shapeColor;
 	}
-
-	public static ShapeEnum getShape()
-	{
-		return shape;
-	}
-
 }
