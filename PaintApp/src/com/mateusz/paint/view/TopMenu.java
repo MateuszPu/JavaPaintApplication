@@ -1,5 +1,6 @@
 package com.mateusz.paint.view;
 
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -15,6 +16,16 @@ public class TopMenu extends JMenuBar
 
 	public TopMenu()
 	{
+	}
+
+	public void addNewItemListener(ActionListener listenForNewItemMenu)
+	{
+		newItem.addActionListener(listenForNewItemMenu);
+	}
+
+	public void addOpenItemListener(ActionListener listenForOpenItemMenu)
+	{
+		newItem.addActionListener(listenForOpenItemMenu);
 	}
 
 	public void setTopMenu()

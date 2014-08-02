@@ -1,4 +1,4 @@
-package com.mateusz.paint.model;
+package com.mateusz.paint.model.shapes;
 
 import java.awt.Color;
 import java.awt.Graphics;

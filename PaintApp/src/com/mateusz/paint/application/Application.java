@@ -12,7 +12,6 @@ public class Application
 	{
 		SwingUtilities.invokeLater(new Runnable()
 		{
-			//test
 			@Override
 			public void run()
 			{

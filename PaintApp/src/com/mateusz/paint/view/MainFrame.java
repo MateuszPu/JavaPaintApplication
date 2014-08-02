@@ -1,15 +1,12 @@
 package com.mateusz.paint.view;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.Dimension;
 import java.awt.HeadlessException;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.MenuBar;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import com.mateusz.paint.model.Model;
-import com.mateusz.paint.model.StaticStuff;
 
 public class MainFrame extends JFrame
 {
@@ -37,7 +34,10 @@ public class MainFrame extends JFrame
 
 	public void prepareFrame()
 	{
-		setSize(500, 500);
+		int width = 500;
+		int height = 500;
+
+		setSize(width, height);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		// setResizable(false);
@@ -62,11 +62,14 @@ public class MainFrame extends JFrame
 		return toolsMenu;
 	}
 
+	public TopMenu getTopMenu()
+	{
+		return menuBar;
+	}
+
 	public DrawPanel getDrawPanel()
 	{
 		return drawPanel;
 	}
-
-
 
 }
