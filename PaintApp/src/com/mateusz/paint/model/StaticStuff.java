@@ -5,7 +5,7 @@ import com.mateusz.paint.enums.ShapeEnum;
 
 public class StaticStuff
 {
-	private static ShapeEnum shapeType = ShapeEnum.RECTANGLE;
+	private static ShapeEnum shapeType = ShapeEnum.PENCIL;
 	private static Color shapeColor = Color.BLACK;
 
 	public static ShapeEnum getShapeType()

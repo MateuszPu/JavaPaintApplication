@@ -3,18 +3,18 @@ package com.mateusz.paint.model;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import com.mateusz.paint.model.shapes.Shape;
 
 public class DrawingsEdit extends JComponent
 {
@@ -39,11 +39,6 @@ public class DrawingsEdit extends JComponent
 	public void setGraphics2D(Graphics2D graphics2d)
 	{
 		graphics2D = graphics2d;
-	}
-
-	public void clearDrawings(List<Shape> currentDrawings)
-	{
-		currentDrawings.clear();
 	}
 
 	public void setBufferedImageAndGraphicsFromCurrentDrawings(int width, int height)
@@ -103,42 +98,103 @@ public class DrawingsEdit extends JComponent
 
 	public void saveImageToFile(BufferedImage imageReaded)
 	{
+		boolean isCorrectExtension = false;
 
-		int defaultSelectedItem = 1;
-		JFileChooser saveAs = new JFileChooser();
-		saveAs.addChoosableFileFilter(new FileNameExtensionFilter("JPG (.jpg)", "jpg"));
-		saveAs.addChoosableFileFilter(new FileNameExtensionFilter("PNG (.png)", "png"));
-		saveAs.addChoosableFileFilter(new FileNameExtensionFilter("BMP (.bmp)", "bmp"));
-		saveAs.addChoosableFileFilter(new FileNameExtensionFilter("JPEG (.jpeg)", "jpeg"));
-		saveAs.setFileFilter(saveAs.getChoosableFileFilters()[defaultSelectedItem]);
-
-		int optionChosenByUser = saveAs.showSaveDialog(this);
-
-		if (optionChosenByUser == JFileChooser.APPROVE_OPTION)
+		while (!isCorrectExtension)
 		{
-			File outPath = saveAs.getSelectedFile();
-			String saveType = outPath.getName().substring(outPath.getName().lastIndexOf(".") + 1);
+			int defaultFilesType = 1; // 0==all files, 1==jpg, 2==png, 3==bmp
+										// 4==jpeg
+			JFileChooser saveAs = new JFileChooser();
+			saveAs.addChoosableFileFilter(new FileNameExtensionFilter("JPG (.jpg)", "jpg"));
+			saveAs.addChoosableFileFilter(new FileNameExtensionFilter("PNG (.png)", "png"));
+			saveAs.addChoosableFileFilter(new FileNameExtensionFilter("BMP (.bmp)", "bmp"));
+			saveAs.addChoosableFileFilter(new FileNameExtensionFilter("JPEG (.jpeg)", "jpeg"));
+			saveAs.setFileFilter(saveAs.getChoosableFileFilters()[defaultFilesType]);
 
-			if (saveType.equalsIgnoreCase("png") || saveType.equalsIgnoreCase("jpg")
-					|| saveType.equalsIgnoreCase("bmp") || saveType.equalsIgnoreCase("jpeg"))
+			int optionChosenByUser = saveAs.showSaveDialog(this);
+
+			if (optionChosenByUser == JFileChooser.APPROVE_OPTION)
 			{
-				try
+				File outPath = saveAs.getSelectedFile();
+				String saveType = outPath.getName().substring(outPath.getName().lastIndexOf(".") + 1);
+
+				if (saveType.equalsIgnoreCase("png") || saveType.equalsIgnoreCase("jpg")
+						|| saveType.equalsIgnoreCase("bmp") || saveType.equalsIgnoreCase("jpeg"))
 				{
-					ImageIO.write(imageReaded, saveType, outPath);
+					try
+					{
+						ImageIO.write(imageReaded, saveType, outPath);
+						isCorrectExtension = true;
+					}
+					catch (IOException e)
+					{
+						JOptionPane.showMessageDialog(this,
+								"Write error for " + outPath.getName() + ": " + e.getMessage(), "Unable to save file",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
-				catch (IOException e)
+
+				else
 				{
-					JOptionPane.showMessageDialog(this, "Write error for " + outPath.getName() + ": " + e.getMessage(),
-							"Unable to save file", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Wrong extension :( " + "\n Please provide correct extension "
+							+ "\n Example: \"yourPicuteName.extension\" "
+							+ "\n Avaliable extension: png, jpg, bmp, jpeg", "Error !!!", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(null, "Wrong extension :( " + "\n Please provide correct extension "
-						+ "\n Example: \"yourPicuteName.extension\" " + "\n Avaliable extension: png, jpg, bmp, jpeg",
-						"Error !!!", JOptionPane.ERROR_MESSAGE);
+				isCorrectExtension = true;
 			}
 		}
 	}
 
+	public void flipHorizontal(BufferedImage imageToFlipHorizontal)
+	{
+		int sx = -1; // sx - factor by which coordinates are scaled along the X
+						// axis direction
+		int sy = 1; // sy - factor by which coordinates are scaled along the Y
+					// axis direction
+		int ty = 0; // ty - the distance by which coordinates are translated in
+					// the Y axis direction
+		AffineTransform tx = AffineTransform.getScaleInstance(sx, sy);
+		tx.translate(-imageToFlipHorizontal.getWidth(null), ty);
+		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		bufferedImage = op.filter(imageToFlipHorizontal, null);
+	}
+
+	public void flipVertical(BufferedImage imageToFlipHorizontal)
+	{
+		int sx = 1; // sx - factor by which coordinates are scaled along the X
+					// axis direction
+		int sy = -1; // sy - factor by which coordinates are scaled along the Y
+						// axis direction
+		int ty = 0; // ty - the distance by which coordinates are translated in
+					// the Y axis direction
+		AffineTransform tx = AffineTransform.getScaleInstance(sx, sy);
+		tx.translate(ty, -imageToFlipHorizontal.getHeight(null));
+		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		bufferedImage = op.filter(imageToFlipHorizontal, null);
+	}
+
+	public void rotateImage180Degrees()
+	{
+		int degrees = 180;
+		int x = bufferedImage.getWidth(); // x - the x coordinate of the origin
+											// of the rotation
+		int y = bufferedImage.getHeight(); // y - the y coordinate of the origin
+											// of the rotation
+		graphics2D.rotate(Math.toRadians(degrees), x / 2, y / 2);
+	}
+
+	public void rotateLeftRight(int degrees)
+	{
+		BufferedImage oldImage = bufferedImage;
+		BufferedImage newImage = new BufferedImage(oldImage.getHeight(), oldImage.getWidth(), oldImage.getType());
+		Graphics2D graphics = (Graphics2D) newImage.getGraphics();
+		graphics.rotate(Math.toRadians(degrees), newImage.getWidth() / 2, newImage.getHeight() / 2);
+		graphics.translate((newImage.getWidth() - oldImage.getWidth()) / 2,
+				(newImage.getHeight() - oldImage.getHeight()) / 2);
+		graphics.drawImage(oldImage, 0, 0, oldImage.getWidth(), oldImage.getHeight(), null);
+		bufferedImage = newImage;
+	}
 }

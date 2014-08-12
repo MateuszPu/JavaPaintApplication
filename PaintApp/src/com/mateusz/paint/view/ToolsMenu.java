@@ -1,6 +1,7 @@
 package com.mateusz.paint.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +22,11 @@ public class ToolsMenu extends JPanel
 
 	public ToolsMenu()
 	{
+		int width = 60;
+		int height = 210;
+		setPreferredSize(new Dimension(width, height));
+		setMinimumSize(new Dimension(width, height));
+		setMaximumSize(new Dimension(width, height));
 	}
 
 	public void setTools()
@@ -29,15 +35,22 @@ public class ToolsMenu extends JPanel
 		int numberOfRows = 0; // 0 = many rows as necessary
 		this.setLayout(new GridLayout(numberOfRows, numberOfColumns));
 
-		tipText = new JLabel("Color Chooser: ");
+		tipText = new JLabel("Color:  ");
 		rectangleButton = new JButton(new ImageIcon("images/tools/rectangle.png"));
+		rectangleButton.setToolTipText("Draw Rectangle");
 		circleButton = new JButton(new ImageIcon("images/tools/circle.png"));
+		circleButton.setToolTipText("Draw Circle");
 		pencilButton = new JButton(new ImageIcon("images/tools/pencil.png"));
+		pencilButton.setToolTipText("Draw Pencil");
 		lineButton = new JButton(new ImageIcon("images/tools/line.png"));
+		lineButton.setToolTipText("Draw Line");
 		rubberButton = new JButton(new ImageIcon("images/tools/rubber.png"));
+		rubberButton.setToolTipText("Erase drawings");
 		fillClosedShapeButton = new JButton(new ImageIcon("images/tools/fill.png"));
+		fillClosedShapeButton.setToolTipText("Fill closed shape by selected Color");
 
 		colorButton = new JButton();
+		colorButton.setToolTipText("Select color");
 		colorButton.setForeground(StaticStuff.getShapeColor());
 		colorButton.setBackground(StaticStuff.getShapeColor());
 

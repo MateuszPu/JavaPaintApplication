@@ -18,14 +18,49 @@ public class TopMenu extends JMenuBar
 	{
 	}
 
-	public void addNewItemListener(ActionListener listenForNewItemMenu)
+	public void addNewListener(ActionListener listenerForNewItem)
 	{
-		newItem.addActionListener(listenForNewItemMenu);
+		newItem.addActionListener(listenerForNewItem);
 	}
 
-	public void addOpenItemListener(ActionListener listenForOpenItemMenu)
+	public void addOpenListener(ActionListener listenerForOpenItem)
 	{
-		newItem.addActionListener(listenForOpenItemMenu);
+		openItem.addActionListener(listenerForOpenItem);
+	}
+
+	public void addSaveImageListener(ActionListener listenerForSaveImage)
+	{
+		saveItem.addActionListener(listenerForSaveImage);
+	}
+
+	public void addExitListener(ActionListener listenerForExit)
+	{
+		exitItem.addActionListener(listenerForExit);
+	}
+
+	public void addRotate90RightListener(ActionListener listenerForRotate90Right)
+	{
+		rotate90RightItem.addActionListener(listenerForRotate90Right);
+	}
+
+	public void addRotate90RLeftListener(ActionListener listenerForRotate90RLeftItem)
+	{
+		rotate90RLeftItem.addActionListener(listenerForRotate90RLeftItem);
+	}
+
+	public void addRotate180Listener(ActionListener listenerForRotate180Item)
+	{
+		rotate180Item.addActionListener(listenerForRotate180Item);
+	}
+
+	public void addflipVerticaListener(ActionListener listenerForFlipVertical)
+	{
+		flipVerticalItem.addActionListener(listenerForFlipVertical);
+	}
+
+	public void addFlipHorizontalListener(ActionListener listenerForFlipHorizontal)
+	{
+		flipHorizontalItem.addActionListener(listenerForFlipHorizontal);
 	}
 
 	public void setTopMenu()

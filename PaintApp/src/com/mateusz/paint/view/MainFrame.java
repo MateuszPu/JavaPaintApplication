@@ -1,11 +1,12 @@
 package com.mateusz.paint.view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
-import java.awt.MenuBar;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import com.mateusz.paint.model.Model;
 
 public class MainFrame extends JFrame
@@ -19,17 +20,31 @@ public class MainFrame extends JFrame
 	{
 		super("Paint Application");
 		prepareFrame();
+		// setLayout(new GridBagLayout());
+		// GridBagConstraints constraints = new GridBagConstraints();
 
 		initializeToolsMenuComponents();
 		initializeTopMenuComponents();
-		drawPanel = new DrawPanel();
+		initializeDrawPanel();
 
+		JScrollPane scrollPane = new JScrollPane(drawPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		JPanel mainLayoutforApplication = new JPanel(new BorderLayout());
-
 		mainLayoutforApplication.add(toolsMenu, BorderLayout.WEST);
-		mainLayoutforApplication.add(drawPanel, BorderLayout.CENTER);
-		this.add(mainLayoutforApplication);
+		mainLayoutforApplication.add(scrollPane, BorderLayout.CENTER);
+		add(mainLayoutforApplication);
 
+		// // constraints.gridheight = 1;
+		// // constraints.gridwidth = 1;
+		// constraints.gridx = 0;
+		// constraints.gridy = 0;
+		// // constraints.weightx = 1.0;
+		// // constraints.weighty = 1.0;
+		// constraints.fill = GridBagConstraints.BOTH;
+		//
+		// add(toolsMenu, constraints);
+		// constraints.gridx = 1;
+		// add(scrollPane, constraints);
 	}
 
 	public void prepareFrame()
@@ -57,6 +72,11 @@ public class MainFrame extends JFrame
 		toolsMenu.setTools();
 	}
 
+	public void initializeDrawPanel()
+	{
+		drawPanel = new DrawPanel();
+	}
+
 	public ToolsMenu getToolsMenu()
 	{
 		return toolsMenu;
@@ -71,5 +91,4 @@ public class MainFrame extends JFrame
 	{
 		return drawPanel;
 	}
-
 }

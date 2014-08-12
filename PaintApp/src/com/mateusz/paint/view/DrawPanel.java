@@ -1,26 +1,36 @@
 package com.mateusz.paint.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import com.mateusz.paint.model.shapes.Shape;
 
 public class DrawPanel extends JPanel
 {
 	private List<Shape> shapes = new ArrayList<>();
-	// private List<BufferedImage> undoImage = new ArrayList<>();
+	// private List<BufferedImage> undoImage = new LinkedList<>();
 	private Shape temmplateShape;
 	private BufferedImage imageDrawOnPanel;
 
 	public DrawPanel()
 	{
 		setOpaque(true);
+		int width = 400;
+		int height = 400;
+		setPreferredSize(new Dimension(width, height));
 		setBackground(Color.WHITE);
 	}
 
@@ -40,7 +50,7 @@ public class DrawPanel extends JPanel
 
 		int xCordinate = 0;
 		int yCordinate = 0;
-		g.drawImage(imageDrawOnPanel, xCordinate, yCordinate, getWidth(), getHeight(), null);
+		g.drawImage(imageDrawOnPanel, xCordinate, yCordinate, null);
 
 		for (Shape s : shapes)
 		{
@@ -49,7 +59,10 @@ public class DrawPanel extends JPanel
 		}
 
 		if (temmplateShape != null)
+		{
 			temmplateShape.render(g);
+		}
+
 	}
 
 	public List<Shape> getShapes()
@@ -88,14 +101,11 @@ public class DrawPanel extends JPanel
 		setImageToDraw(bufferedImage);
 	}
 
-	// public void clear()
-	// {
-	// if (!(imageToDrawOnPanel == null))
-	// {
-	// imageToDrawOnPanel = null;
-	// }
-	// shapes.clear();
-	// }
+	public void clear()
+	{
+		imageDrawOnPanel = null;
+		shapes.clear();
+	}
 	// public void rotateLeftRight(int degrees)
 	// {
 	// BufferedImage oldImage = undoImage.get(undoImage.size() - 1);
@@ -112,51 +122,6 @@ public class DrawPanel extends JPanel
 	// clearDrawingsShapes();
 	// undoOperation();
 	// repaint();
-	// }
-	//
-	// public void rotate180()
-	// {
-	// int w = getWidth();
-	// int h = getHeight();
-	// BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-	// Graphics2D g2d = bi.createGraphics();
-	// g2d.rotate(Math.toRadians(180), w / 2, h / 2);
-	// paint(g2d);
-	// setImageToDraw(bi);
-	// clearDrawingsShapes();
-	// undoOperation();
-	// repaint();
-	// }
-	//
-	// public void flipVertical()
-	// {
-	//
-	// currentDrawingsToImage();
-	// clearDrawingsShapes();
-	//
-	// AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
-	// tx.translate(0, -imageToDrawOnPanel.getHeight(null));
-	// AffineTransformOp op = new AffineTransformOp(tx,
-	// AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-	// imageToDrawOnPanel = op.filter(imageToDrawOnPanel, null);
-	// repaint();
-	// undoOperation();
-	// }
-	//
-	// public void flipHorizontal()
-	// {
-	// currentDrawingsToImage();
-	// clearDrawingsShapes();
-	//
-	// AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
-	// tx.translate(-imageToDrawOnPanel.getWidth(null), 0);
-	// AffineTransformOp op = new AffineTransformOp(tx,
-	// AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-	// imageToDrawOnPanel = op.filter(imageToDrawOnPanel, null);
-	// repaint();
-	// undoOperation();
-	// }
-	//
 	//
 	// public void undoOperation()
 	// {
