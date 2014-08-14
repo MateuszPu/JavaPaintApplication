@@ -18,51 +18,6 @@ public class TopMenu extends JMenuBar
 	{
 	}
 
-	public void addNewListener(ActionListener listenerForNewItem)
-	{
-		newItem.addActionListener(listenerForNewItem);
-	}
-
-	public void addOpenListener(ActionListener listenerForOpenItem)
-	{
-		openItem.addActionListener(listenerForOpenItem);
-	}
-
-	public void addSaveImageListener(ActionListener listenerForSaveImage)
-	{
-		saveItem.addActionListener(listenerForSaveImage);
-	}
-
-	public void addExitListener(ActionListener listenerForExit)
-	{
-		exitItem.addActionListener(listenerForExit);
-	}
-
-	public void addRotate90RightListener(ActionListener listenerForRotate90Right)
-	{
-		rotate90RightItem.addActionListener(listenerForRotate90Right);
-	}
-
-	public void addRotate90RLeftListener(ActionListener listenerForRotate90RLeftItem)
-	{
-		rotate90RLeftItem.addActionListener(listenerForRotate90RLeftItem);
-	}
-
-	public void addRotate180Listener(ActionListener listenerForRotate180Item)
-	{
-		rotate180Item.addActionListener(listenerForRotate180Item);
-	}
-
-	public void addflipVerticaListener(ActionListener listenerForFlipVertical)
-	{
-		flipVerticalItem.addActionListener(listenerForFlipVertical);
-	}
-
-	public void addFlipHorizontalListener(ActionListener listenerForFlipHorizontal)
-	{
-		flipHorizontalItem.addActionListener(listenerForFlipHorizontal);
-	}
-
 	public void setTopMenu()
 	{
 		menuBar = new JMenuBar();
@@ -113,6 +68,61 @@ public class TopMenu extends JMenuBar
 	public JMenuBar getMenuBar()
 	{
 		return menuBar;
+	}
+
+	public void addNewListener(ActionListener listenerForNewItem)
+	{
+		newItem.addActionListener(listenerForNewItem);
+	}
+
+	public void addOpenListener(ActionListener listenerForOpenItem)
+	{
+		openItem.addActionListener(listenerForOpenItem);
+	}
+
+	public void addSaveImageListener(ActionListener listenerForSaveImage)
+	{
+		saveItem.addActionListener(listenerForSaveImage);
+	}
+
+	public void addExitListener(ActionListener listenerForExit)
+	{
+		exitItem.addActionListener(listenerForExit);
+	}
+
+	public void addUndoListener(ActionListener listenerForUndo)
+	{
+		undoItem.addActionListener(listenerForUndo);
+	}
+
+	public void addRedoListener(ActionListener listenerForRedo)
+	{
+		redoItem.addActionListener(listenerForRedo);
+	}
+
+	public void addRotate90RightListener(ActionListener listenerForRotate90Right)
+	{
+		rotate90RightItem.addActionListener(listenerForRotate90Right);
+	}
+
+	public void addRotate90RLeftListener(ActionListener listenerForRotate90RLeftItem)
+	{
+		rotate90RLeftItem.addActionListener(listenerForRotate90RLeftItem);
+	}
+
+	public void addRotate180Listener(ActionListener listenerForRotate180Item)
+	{
+		rotate180Item.addActionListener(listenerForRotate180Item);
+	}
+
+	public void addflipVerticaListener(ActionListener listenerForFlipVertical)
+	{
+		flipVerticalItem.addActionListener(listenerForFlipVertical);
+	}
+
+	public void addFlipHorizontalListener(ActionListener listenerForFlipHorizontal)
+	{
+		flipHorizontalItem.addActionListener(listenerForFlipHorizontal);
 	}
 
 }

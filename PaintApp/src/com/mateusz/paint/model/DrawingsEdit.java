@@ -8,8 +8,10 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -18,8 +20,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class DrawingsEdit extends JComponent
 {
-	private Graphics2D graphics2D;
 	private BufferedImage bufferedImage;
+	private Graphics2D graphics2D;
+	public List<BufferedImage> undoImageList = new ArrayList<>();
 
 	public BufferedImage getBufferedImage()
 	{
@@ -43,10 +46,11 @@ public class DrawingsEdit extends JComponent
 
 	public void setBufferedImageAndGraphicsFromCurrentDrawings(int width, int height)
 	{
-		BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		Graphics2D graphics2D = bufferedImage.createGraphics();
-		this.setGraphics2D(graphics2D);
-		this.bufferedImage = bufferedImage;
+		this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		this.graphics2D = bufferedImage.createGraphics();
+		// this.graphics2D = graphics2D;
+		// this.bufferedImage = bufferedImage;
+		// undoImageList.add(bufferedImage);
 	}
 
 	public void floodFill(BufferedImage image, Point pkt, Color targetColor, Color replacementColor)
@@ -102,14 +106,14 @@ public class DrawingsEdit extends JComponent
 
 		while (!isCorrectExtension)
 		{
-			int defaultFilesType = 1; // 0==all files, 1==jpg, 2==png, 3==bmp
+			int defaultFileType = 1; // 0==all files, 1==jpg, 2==png, 3==bmp
 										// 4==jpeg
 			JFileChooser saveAs = new JFileChooser();
 			saveAs.addChoosableFileFilter(new FileNameExtensionFilter("JPG (.jpg)", "jpg"));
 			saveAs.addChoosableFileFilter(new FileNameExtensionFilter("PNG (.png)", "png"));
 			saveAs.addChoosableFileFilter(new FileNameExtensionFilter("BMP (.bmp)", "bmp"));
 			saveAs.addChoosableFileFilter(new FileNameExtensionFilter("JPEG (.jpeg)", "jpeg"));
-			saveAs.setFileFilter(saveAs.getChoosableFileFilters()[defaultFilesType]);
+			saveAs.setFileFilter(saveAs.getChoosableFileFilters()[defaultFileType]);
 
 			int optionChosenByUser = saveAs.showSaveDialog(this);
 
@@ -170,31 +174,50 @@ public class DrawingsEdit extends JComponent
 						// axis direction
 		int ty = 0; // ty - the distance by which coordinates are translated in
 					// the Y axis direction
-		AffineTransform tx = AffineTransform.getScaleInstance(sx, sy);
-		tx.translate(ty, -imageToFlipHorizontal.getHeight(null));
-		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		AffineTransform transform = AffineTransform.getScaleInstance(sx, sy);
+		transform.translate(ty, -imageToFlipHorizontal.getHeight(null));
+		AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 		bufferedImage = op.filter(imageToFlipHorizontal, null);
 	}
 
-	public void rotateImage180Degrees()
+	public void rotateImage180Degrees(BufferedImage imageToFlipHorizontal)
 	{
-		int degrees = 180;
-		int x = bufferedImage.getWidth(); // x - the x coordinate of the origin
-											// of the rotation
-		int y = bufferedImage.getHeight(); // y - the y coordinate of the origin
-											// of the rotation
-		graphics2D.rotate(Math.toRadians(degrees), x / 2, y / 2);
+		// int degrees = 180;
+		// int x = bufferedImage.getWidth(); // x - the x coordinate of the
+		// origin
+		// // of the rotation
+		// int y = bufferedImage.getHeight(); // y - the y coordinate of the
+		// origin
+		// // of the rotation
+		// graphics2D.rotate(Math.toRadians(degrees), x / 2, y / 2);
+
+		int sx = -1; // sx - factor by which coordinates are scaled along the X
+						// axis direction
+		int sy = -1; // sy - factor by which coordinates are scaled along the Y
+						// axis direction
+
+		AffineTransform transform = AffineTransform.getScaleInstance(sx, sy);
+		transform.translate(-bufferedImage.getWidth(null), -bufferedImage.getHeight(null));
+		AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		bufferedImage = op.filter(imageToFlipHorizontal, null);
 	}
 
-	public void rotateLeftRight(int degrees)
+	public void rotateRight(BufferedImage imageToFlipHorizontal, int degrees)
 	{
-		BufferedImage oldImage = bufferedImage;
-		BufferedImage newImage = new BufferedImage(oldImage.getHeight(), oldImage.getWidth(), oldImage.getType());
-		Graphics2D graphics = (Graphics2D) newImage.getGraphics();
-		graphics.rotate(Math.toRadians(degrees), newImage.getWidth() / 2, newImage.getHeight() / 2);
-		graphics.translate((newImage.getWidth() - oldImage.getWidth()) / 2,
-				(newImage.getHeight() - oldImage.getHeight()) / 2);
-		graphics.drawImage(oldImage, 0, 0, oldImage.getWidth(), oldImage.getHeight(), null);
-		bufferedImage = newImage;
+		AffineTransform tx = new AffineTransform();
+		tx.rotate(Math.toRadians(degrees), imageToFlipHorizontal.getWidth() / 2, imageToFlipHorizontal.getHeight() / 2);
+
+		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+		bufferedImage = op.filter(imageToFlipHorizontal, null);// (sourse,destination)
 	}
+
+	// public void undoOperation()
+	// {
+	// int w = getWidth();
+	// int h = getHeight();
+	// BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+	// Graphics2D g2d = bi.createGraphics();
+	// paint(g2d);
+	// undoImageList.add(bi);
+	// }
 }

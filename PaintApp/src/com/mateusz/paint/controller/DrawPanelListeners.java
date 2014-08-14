@@ -61,9 +61,7 @@ public class DrawPanelListeners
 				}
 				view.getDrawPanel().setTmpShape(drawShape);
 				view.getDrawPanel().repaint();
-
 			}
-
 		}
 
 		// required to implement from MouseListener but unneeded
@@ -99,7 +97,6 @@ public class DrawPanelListeners
 
 				drawingsEdit.floodFill(panelView.getImageDrawOnPanel(), event.getPoint(), backgroundColor,
 						StaticStuff.getShapeColor());
-
 				panelView.repaint();
 			}
 		}

@@ -38,6 +38,8 @@ public class TopMenuListeners
 		topMenuButtons.addSaveImageListener(new SaveMenuListener());
 		topMenuButtons.addExitListener(new ExitMenuListener());
 
+		topMenuButtons.addUndoListener(new UndoListener());
+
 		topMenuButtons.addRotate90RightListener(new Rotate90RightListener());
 		topMenuButtons.addRotate90RLeftListener(new Rotate90LeftListener());
 		topMenuButtons.addRotate180Listener(new Rotate180Listener());
@@ -61,13 +63,11 @@ public class TopMenuListeners
 			{
 			case JOptionPane.YES_OPTION:
 				model.getDrawingsEdit().saveImageToFile(currentDrawingsToImage);
-				currentShapesDrawings.clear();
-				panelView.setImageToDraw(null);
+				clearCurrentDrawings();
 				panelView.repaint();
 				break;
 			case JOptionPane.NO_OPTION:
-				currentShapesDrawings.clear();
-				panelView.setImageToDraw(null);
+				clearCurrentDrawings();
 				panelView.repaint();
 				break;
 			case JOptionPane.CANCEL_OPTION:
@@ -150,22 +150,37 @@ public class TopMenuListeners
 		}
 	}
 
+	class UndoListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			System.out.println(model.getDrawingsEdit().undoImageList.size());
+
+			for (BufferedImage image : model.getDrawingsEdit().undoImageList)
+			{
+				System.out.println(image.toString());
+			}
+
+			// System.out.println(model.getDrawingsEdit().getBufferedImage().toString());
+			// panelView.setImageToDraw(model.getDrawingsEdit().undoImageList.get(1));
+			// panelView.repaint();
+		}
+	}
+
 	class Rotate90RightListener implements ActionListener
 	{
-
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			getCurrentDrawingsToImage();
+			BufferedImage imageToFlip = getCurrentDrawingsToImage();
 			DrawingsEdit drawingsEdit = model.getDrawingsEdit();
-			int degrees = 90; // positive figure is responsible for rotate right
-			drawingsEdit.rotateLeftRight(degrees);
+			drawingsEdit.rotateRight(imageToFlip, 90);
 
-			setImageToDrawOnPanel();
 			clearCurrentDrawings();
+			setImageToDrawOnPanel();
 			panelView.repaint();
 		}
-
 	}
 
 	class Rotate90LeftListener implements ActionListener
@@ -173,13 +188,12 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			getCurrentDrawingsToImage();
+			BufferedImage imageToFlip = getCurrentDrawingsToImage();
 			DrawingsEdit drawingsEdit = model.getDrawingsEdit();
-			int degrees = -90; // negative figure is responsible for rotate left
-			drawingsEdit.rotateLeftRight(degrees);
+			drawingsEdit.rotateRight(imageToFlip, -90);
 
-			setImageToDrawOnPanel();
 			clearCurrentDrawings();
+			setImageToDrawOnPanel();
 			panelView.repaint();
 		}
 	}
@@ -189,15 +203,12 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
+			BufferedImage imageToFlip = getCurrentDrawingsToImage();
 			DrawingsEdit drawingsEdit = model.getDrawingsEdit();
-			int width = panelView.getWidth();
-			int height = panelView.getHeight();
+			drawingsEdit.rotateImage180Degrees(imageToFlip);
 
-			drawingsEdit.setBufferedImageAndGraphicsFromCurrentDrawings(width, height);
-			drawingsEdit.rotateImage180Degrees();
-
-			setImageToDrawOnPanel();
 			clearCurrentDrawings();
+			setImageToDrawOnPanel();
 			panelView.repaint();
 		}
 	}
@@ -224,7 +235,6 @@ public class TopMenuListeners
 		{
 			BufferedImage imageToFlip = getCurrentDrawingsToImage();
 			clearCurrentDrawings();
-
 			model.getDrawingsEdit().flipHorizontal(imageToFlip);
 
 			panelView.setImageToDraw(model.getDrawingsEdit().getBufferedImage());
@@ -260,5 +270,6 @@ public class TopMenuListeners
 	{
 		List<Shape> currentShapesDrawings = panelView.getShapes();
 		currentShapesDrawings.clear();
+		panelView.setImageToDraw(null);
 	}
 }
