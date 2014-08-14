@@ -26,6 +26,7 @@ public class DrawPanelListeners
 	private MainFrame view;
 	private Model model;
 	private DrawPanel drawPanel;
+	private DrawingsEdit drawingsEdit;
 	private Shape drawShape;
 
 	public DrawPanelListeners(MainFrame view, Model model)
@@ -33,6 +34,7 @@ public class DrawPanelListeners
 		this.view = view;
 		this.model = model;
 		drawPanel = view.getDrawPanel();
+		drawingsEdit = model.getDrawingsEdit();
 
 		drawPanel.addDrawPanelMouseListener(new MouseListenerForDrawPanel());
 		drawPanel.addDrawPanelMouseMotionListener(new MouseMotionListenerForDrawPanel());
@@ -78,26 +80,22 @@ public class DrawPanelListeners
 		{
 			if (StaticStuff.getShapeType() == ShapeEnum.FILLCLOSEDSHAPE)
 			{
-				DrawPanel panelView = view.getDrawPanel();
-				DrawingsEdit drawingsEdit = model.getDrawingsEdit();
-
-				int width = panelView.getWidth();
-				int height = panelView.getHeight();
+				int width = drawPanel.getWidth();
+				int height = drawPanel.getHeight();
 
 				drawingsEdit.setBufferedImageAndGraphicsFromCurrentDrawings(width, height);
 				BufferedImage bufferedImage = drawingsEdit.getBufferedImage();
 				Graphics2D g2d = drawingsEdit.getGraphics2D();
-				panelView.currentDrawingsToImage(g2d, bufferedImage);
+				drawPanel.currentDrawingsToImage(g2d, bufferedImage);
 
-				Color c = new Color(panelView.getImageDrawOnPanel().getRGB(event.getX(), event.getY()));
+				Color c = new Color(bufferedImage.getRGB(event.getX(), event.getY()));
 				int red = c.getRed();
 				int green = c.getGreen();
 				int blue = c.getBlue();
 				Color backgroundColor = new Color(red, green, blue);
 
-				drawingsEdit.floodFill(panelView.getImageDrawOnPanel(), event.getPoint(), backgroundColor,
-						StaticStuff.getShapeColor());
-				panelView.repaint();
+				drawingsEdit.floodFill(bufferedImage, event.getPoint(), backgroundColor, StaticStuff.getShapeColor());
+				drawPanel.repaint();
 			}
 		}
 
@@ -114,7 +112,7 @@ public class DrawPanelListeners
 		public void mousePressed(MouseEvent event)
 		{
 			drawShape = getTmpShape(event.getX(), event.getY(), 2, 2);
-			view.getDrawPanel().setTmpShape(drawShape);
+			drawPanel.setTmpShape(drawShape);
 		}
 
 		public void mouseReleased(MouseEvent event)
@@ -124,14 +122,12 @@ public class DrawPanelListeners
 				drawShape.setX2(event.getX());
 				drawShape.setY2(event.getY());
 
-				List<Shape> shapes = view.getDrawPanel().getShapes();
+				List<Shape> shapes = drawPanel.getShapes();
 				shapes.add(drawShape);
-				view.getDrawPanel().setTmpShape(null);
-				view.getDrawPanel().setShapes(shapes);
+				drawPanel.setTmpShape(null);
+				drawPanel.setShapes(shapes);
 				drawShape = null;
-				view.getDrawPanel().repaint();
-
-				// view.getDrawPanel().undoOperation();
+				drawPanel.repaint();
 			}
 		}
 	}

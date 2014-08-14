@@ -24,14 +24,16 @@ public class TopMenuListeners
 	private MainFrame view;
 	private Model model;
 	private TopMenu topMenuButtons;
-	private DrawPanel panelView;
+	private DrawPanel drawPanel;
+	private DrawingsEdit drawingsEdit;
 
 	public TopMenuListeners(MainFrame view, Model model)
 	{
 		this.view = view;
 		this.model = model;
 		topMenuButtons = view.getTopMenu();
-		panelView = view.getDrawPanel();
+		drawPanel = view.getDrawPanel();
+		drawingsEdit = model.getDrawingsEdit();
 
 		topMenuButtons.addNewListener(new NewMenuListener());
 		topMenuButtons.addOpenListener(new OpenMenuListener());
@@ -45,7 +47,6 @@ public class TopMenuListeners
 		topMenuButtons.addRotate180Listener(new Rotate180Listener());
 		topMenuButtons.addflipVerticaListener(new FlipVerticalListener());
 		topMenuButtons.addFlipHorizontalListener(new FlipHorizontalListener());
-
 	}
 
 	class NewMenuListener implements ActionListener
@@ -53,28 +54,26 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			List<Shape> currentShapesDrawings = panelView.getShapes();
-			BufferedImage currentDrawingsToImage = getCurrentDrawingsToImage();
-
+			getCurrentDrawingsToImage();
+			BufferedImage currentDrawingsToImage = drawingsEdit.getBufferedImage();
 			int result = JOptionPane.showConfirmDialog(null, "Do you want to save your progress?", "Save progress?",
 					JOptionPane.YES_NO_CANCEL_OPTION);
 
 			switch (result)
 			{
 			case JOptionPane.YES_OPTION:
-				model.getDrawingsEdit().saveImageToFile(currentDrawingsToImage);
+				drawingsEdit.saveImageToFile(currentDrawingsToImage);
 				clearCurrentDrawings();
-				panelView.repaint();
+				drawPanel.repaint();
 				break;
 			case JOptionPane.NO_OPTION:
 				clearCurrentDrawings();
-				panelView.repaint();
+				drawPanel.repaint();
 				break;
 			case JOptionPane.CANCEL_OPTION:
 				break;
 			}
 		}
-
 	}
 
 	class OpenMenuListener implements ActionListener
@@ -82,7 +81,7 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			List<Shape> currentShapesDrawings = panelView.getShapes();
+			List<Shape> currentShapesDrawings = drawPanel.getShapes();
 
 			JFileChooser openFile = new JFileChooser();
 			openFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -101,10 +100,10 @@ public class TopMenuListeners
 				{
 					BufferedImage image = ImageIO.read(imageFile);
 					currentShapesDrawings.clear();
-					panelView.setImageToDraw(image);
-					panelView.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
-					panelView.revalidate();
-					panelView.repaint();
+					drawPanel.setImageToDraw(image);
+					drawPanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+					drawPanel.revalidate();
+					drawPanel.repaint();
 				}
 				catch (IOException ex)
 				{
@@ -121,8 +120,9 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			BufferedImage currentDrawingsToImage = getCurrentDrawingsToImage();
-			model.getDrawingsEdit().saveImageToFile(currentDrawingsToImage);
+			getCurrentDrawingsToImage();
+			BufferedImage currentDrawingsToImage = drawingsEdit.getBufferedImage();
+			drawingsEdit.saveImageToFile(currentDrawingsToImage);
 		}
 	}
 
@@ -133,12 +133,13 @@ public class TopMenuListeners
 		{
 			int result = JOptionPane.showConfirmDialog(null, "Do you want to save your progress?", "Save progress?",
 					JOptionPane.YES_NO_CANCEL_OPTION);
-			BufferedImage currentDrawingsToImage = getCurrentDrawingsToImage();
+			getCurrentDrawingsToImage();
+			BufferedImage currentDrawingsToImage = drawingsEdit.getBufferedImage();
 
 			switch (result)
 			{
 			case JOptionPane.YES_OPTION:
-				model.getDrawingsEdit().saveImageToFile(currentDrawingsToImage);
+				drawingsEdit.saveImageToFile(currentDrawingsToImage);
 				System.exit(0);
 				break;
 			case JOptionPane.NO_OPTION:
@@ -155,16 +156,16 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			System.out.println(model.getDrawingsEdit().undoImageList.size());
+			List<BufferedImage> undoImageList = drawingsEdit.getUndoImageList();
+			int lastImage = undoImageList.size() - 1;
+			drawPanel.setImageToDraw(undoImageList.get(lastImage));
+			undoImageList.remove(lastImage);
+			drawPanel.repaint();
 
-			for (BufferedImage image : model.getDrawingsEdit().undoImageList)
+			if (undoImageList.isEmpty())
 			{
-				System.out.println(image.toString());
+				topMenuButtons.setEnabledUndoItem();
 			}
-
-			// System.out.println(model.getDrawingsEdit().getBufferedImage().toString());
-			// panelView.setImageToDraw(model.getDrawingsEdit().undoImageList.get(1));
-			// panelView.repaint();
 		}
 	}
 
@@ -173,13 +174,16 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			BufferedImage imageToFlip = getCurrentDrawingsToImage();
-			DrawingsEdit drawingsEdit = model.getDrawingsEdit();
-			drawingsEdit.rotateRight(imageToFlip, 90);
-
+			final int degrees = 90; // positive amount is responsible for rotate
+									// right
+			getCurrentDrawingsToImage();
 			clearCurrentDrawings();
-			setImageToDrawOnPanel();
-			panelView.repaint();
+
+			BufferedImage imageToRotate = drawingsEdit.getBufferedImage();
+			drawingsEdit.rotateRightLeft(imageToRotate, degrees);
+
+			drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
+			drawPanel.repaint();
 		}
 	}
 
@@ -188,13 +192,17 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			BufferedImage imageToFlip = getCurrentDrawingsToImage();
-			DrawingsEdit drawingsEdit = model.getDrawingsEdit();
-			drawingsEdit.rotateRight(imageToFlip, -90);
+			final int degrees = -90; // negative amount is responsible for
+										// rotate left
 
+			getCurrentDrawingsToImage();
 			clearCurrentDrawings();
-			setImageToDrawOnPanel();
-			panelView.repaint();
+
+			BufferedImage imageToRotate = drawingsEdit.getBufferedImage();
+			drawingsEdit.rotateRightLeft(imageToRotate, degrees);
+
+			drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
+			drawPanel.repaint();
 		}
 	}
 
@@ -203,13 +211,14 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			BufferedImage imageToFlip = getCurrentDrawingsToImage();
-			DrawingsEdit drawingsEdit = model.getDrawingsEdit();
-			drawingsEdit.rotateImage180Degrees(imageToFlip);
-
+			getCurrentDrawingsToImage();
 			clearCurrentDrawings();
-			setImageToDrawOnPanel();
-			panelView.repaint();
+
+			BufferedImage imageToRotate = drawingsEdit.getBufferedImage();
+			drawingsEdit.rotateImage180Degrees(imageToRotate);
+
+			drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
+			drawPanel.repaint();
 		}
 	}
 
@@ -218,13 +227,14 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			BufferedImage imageToFlip = getCurrentDrawingsToImage();
+			getCurrentDrawingsToImage();
 			clearCurrentDrawings();
 
-			model.getDrawingsEdit().flipVertical(imageToFlip);
+			BufferedImage imageToFlip = drawingsEdit.getBufferedImage();
+			drawingsEdit.flipVertical(imageToFlip);
 
-			panelView.setImageToDraw(model.getDrawingsEdit().getBufferedImage());
-			panelView.repaint();
+			drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
+			drawPanel.repaint();
 		}
 	}
 
@@ -233,43 +243,32 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			BufferedImage imageToFlip = getCurrentDrawingsToImage();
+			getCurrentDrawingsToImage();
 			clearCurrentDrawings();
-			model.getDrawingsEdit().flipHorizontal(imageToFlip);
 
-			panelView.setImageToDraw(model.getDrawingsEdit().getBufferedImage());
-			panelView.repaint();
+			BufferedImage imageToFlip = drawingsEdit.getBufferedImage();
+			drawingsEdit.flipHorizontal(imageToFlip);
+
+			drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
+			drawPanel.repaint();
 		}
-
 	}
 
-	private BufferedImage getCurrentDrawingsToImage()
+	private void getCurrentDrawingsToImage()
 	{
-		DrawingsEdit drawingsEdit = model.getDrawingsEdit();
-
-		int width = panelView.getWidth();
-		int height = panelView.getHeight();
+		int width = drawPanel.getWidth();
+		int height = drawPanel.getHeight();
 
 		drawingsEdit.setBufferedImageAndGraphicsFromCurrentDrawings(width, height);
 		BufferedImage bufferedImage = drawingsEdit.getBufferedImage();
 		Graphics2D g2d = drawingsEdit.getGraphics2D();
-		panelView.currentDrawingsToImage(g2d, bufferedImage);
-
-		return bufferedImage;
-	}
-
-	private void setImageToDrawOnPanel()
-	{
-		DrawingsEdit drawingsEdit = model.getDrawingsEdit();
-		BufferedImage bufferedImage = drawingsEdit.getBufferedImage();
-		Graphics2D g2d = drawingsEdit.getGraphics2D();
-		panelView.currentDrawingsToImage(g2d, bufferedImage);
+		drawPanel.currentDrawingsToImage(g2d, bufferedImage);
 	}
 
 	private void clearCurrentDrawings()
 	{
-		List<Shape> currentShapesDrawings = panelView.getShapes();
+		List<Shape> currentShapesDrawings = drawPanel.getShapes();
 		currentShapesDrawings.clear();
-		panelView.setImageToDraw(null);
+		drawPanel.setImageToDraw(null);
 	}
 }

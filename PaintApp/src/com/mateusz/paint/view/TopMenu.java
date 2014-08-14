@@ -11,7 +11,7 @@ public class TopMenu extends JMenuBar
 
 	private JMenuBar menuBar;
 	private JMenu menuFile, menuRotate, menuEdit;
-	private JMenuItem newItem, openItem, saveItem, exitItem, undoItem, redoItem, rotate90RightItem, rotate90RLeftItem,
+	private JMenuItem newItem, openItem, saveItem, exitItem, undoItem, rotate90RightItem, rotate90RLeftItem,
 			rotate180Item, flipVerticalItem, flipHorizontalItem;
 
 	public TopMenu()
@@ -43,9 +43,8 @@ public class TopMenu extends JMenuBar
 
 		// add items to menu "Edit"
 		undoItem = new JMenuItem("Undo", new ImageIcon("images/menu/undo.png"));
+		// undoItem.setEnabled(false);
 		menuEdit.add(undoItem);
-		redoItem = new JMenuItem("Redo", new ImageIcon("images/menu/redo.png"));
-		menuEdit.add(redoItem);
 
 		// menu rotate
 		menuRotate = new JMenu("Rotate");
@@ -63,6 +62,11 @@ public class TopMenu extends JMenuBar
 		flipHorizontalItem = new JMenuItem("Flip Horizontal", new ImageIcon("images/menu/fliphorizontal.png"));
 		menuRotate.add(flipHorizontalItem);
 
+	}
+
+	public void setEnabledUndoItem()
+	{
+		undoItem.setEnabled(false);
 	}
 
 	public JMenuBar getMenuBar()
@@ -93,11 +97,6 @@ public class TopMenu extends JMenuBar
 	public void addUndoListener(ActionListener listenerForUndo)
 	{
 		undoItem.addActionListener(listenerForUndo);
-	}
-
-	public void addRedoListener(ActionListener listenerForRedo)
-	{
-		redoItem.addActionListener(listenerForRedo);
 	}
 
 	public void addRotate90RightListener(ActionListener listenerForRotate90Right)

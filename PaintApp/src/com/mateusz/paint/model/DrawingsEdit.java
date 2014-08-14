@@ -22,7 +22,7 @@ public class DrawingsEdit extends JComponent
 {
 	private BufferedImage bufferedImage;
 	private Graphics2D graphics2D;
-	public List<BufferedImage> undoImageList = new ArrayList<>();
+	private List<BufferedImage> undoImageList = new ArrayList<>();
 
 	public BufferedImage getBufferedImage()
 	{
@@ -44,13 +44,20 @@ public class DrawingsEdit extends JComponent
 		graphics2D = graphics2d;
 	}
 
+	public List<BufferedImage> getUndoImageList()
+	{
+		return undoImageList;
+	}
+
+	public void setUndoImageList(List<BufferedImage> undoImageList)
+	{
+		this.undoImageList = undoImageList;
+	}
+
 	public void setBufferedImageAndGraphicsFromCurrentDrawings(int width, int height)
 	{
 		this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		this.graphics2D = bufferedImage.createGraphics();
-		// this.graphics2D = graphics2D;
-		// this.bufferedImage = bufferedImage;
-		// undoImageList.add(bufferedImage);
 	}
 
 	public void floodFill(BufferedImage image, Point pkt, Color targetColor, Color replacementColor)
@@ -59,6 +66,7 @@ public class DrawingsEdit extends JComponent
 		int height = image.getHeight();
 		int target = targetColor.getRGB();
 		int replacement = replacementColor.getRGB();
+
 		if (target != replacement)
 		{
 			Deque<Point> queue = new LinkedList<Point>();
@@ -130,7 +138,7 @@ public class DrawingsEdit extends JComponent
 						ImageIO.write(imageReaded, saveType, outPath);
 						isCorrectExtension = true;
 					}
-					catch (IOException e)
+					catch (IOException | NullPointerException e)
 					{
 						JOptionPane.showMessageDialog(this,
 								"Write error for " + outPath.getName() + ": " + e.getMessage(), "Unable to save file",
@@ -160,6 +168,9 @@ public class DrawingsEdit extends JComponent
 					// axis direction
 		int ty = 0; // ty - the distance by which coordinates are translated in
 					// the Y axis direction
+
+		undoImageList.add(bufferedImage);
+
 		AffineTransform tx = AffineTransform.getScaleInstance(sx, sy);
 		tx.translate(-imageToFlipHorizontal.getWidth(null), ty);
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
@@ -174,6 +185,9 @@ public class DrawingsEdit extends JComponent
 						// axis direction
 		int ty = 0; // ty - the distance by which coordinates are translated in
 					// the Y axis direction
+
+		undoImageList.add(bufferedImage);
+
 		AffineTransform transform = AffineTransform.getScaleInstance(sx, sy);
 		transform.translate(ty, -imageToFlipHorizontal.getHeight(null));
 		AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
@@ -182,19 +196,12 @@ public class DrawingsEdit extends JComponent
 
 	public void rotateImage180Degrees(BufferedImage imageToFlipHorizontal)
 	{
-		// int degrees = 180;
-		// int x = bufferedImage.getWidth(); // x - the x coordinate of the
-		// origin
-		// // of the rotation
-		// int y = bufferedImage.getHeight(); // y - the y coordinate of the
-		// origin
-		// // of the rotation
-		// graphics2D.rotate(Math.toRadians(degrees), x / 2, y / 2);
-
 		int sx = -1; // sx - factor by which coordinates are scaled along the X
 						// axis direction
 		int sy = -1; // sy - factor by which coordinates are scaled along the Y
 						// axis direction
+
+		undoImageList.add(bufferedImage);
 
 		AffineTransform transform = AffineTransform.getScaleInstance(sx, sy);
 		transform.translate(-bufferedImage.getWidth(null), -bufferedImage.getHeight(null));
@@ -202,8 +209,10 @@ public class DrawingsEdit extends JComponent
 		bufferedImage = op.filter(imageToFlipHorizontal, null);
 	}
 
-	public void rotateRight(BufferedImage imageToFlipHorizontal, int degrees)
+	public void rotateRightLeft(BufferedImage imageToFlipHorizontal, int degrees)
 	{
+		undoImageList.add(bufferedImage);
+
 		AffineTransform tx = new AffineTransform();
 		tx.rotate(Math.toRadians(degrees), imageToFlipHorizontal.getWidth() / 2, imageToFlipHorizontal.getHeight() / 2);
 
@@ -211,13 +220,8 @@ public class DrawingsEdit extends JComponent
 		bufferedImage = op.filter(imageToFlipHorizontal, null);// (sourse,destination)
 	}
 
-	// public void undoOperation()
+	// public void addImageToUndoList()
 	// {
-	// int w = getWidth();
-	// int h = getHeight();
-	// BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-	// Graphics2D g2d = bi.createGraphics();
-	// paint(g2d);
-	// undoImageList.add(bi);
+	// undoImageList.add(bufferedImage);
 	// }
 }
