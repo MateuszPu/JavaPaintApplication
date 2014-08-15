@@ -86,10 +86,4 @@ public class DrawPanel extends JPanel
 	{
 		return imageDrawOnPanel;
 	}
-
-	public void currentDrawingsToImage(Graphics2D g2d, BufferedImage bufferedImage)
-	{
-		paint(g2d);
-		setImageToDraw(bufferedImage);
-	}
 }

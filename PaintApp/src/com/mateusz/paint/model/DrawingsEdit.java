@@ -54,12 +54,6 @@ public class DrawingsEdit extends JComponent
 		this.undoImageList = undoImageList;
 	}
 
-	public void setBufferedImageAndGraphicsFromCurrentDrawings(int width, int height)
-	{
-		this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		this.graphics2D = bufferedImage.createGraphics();
-	}
-
 	public void floodFill(BufferedImage image, Point pkt, Color targetColor, Color replacementColor)
 	{
 		int width = image.getWidth();
@@ -220,8 +214,18 @@ public class DrawingsEdit extends JComponent
 		bufferedImage = op.filter(imageToFlipHorizontal, null);// (sourse,destination)
 	}
 
-	// public void addImageToUndoList()
-	// {
-	// undoImageList.add(bufferedImage);
-	// }
+	public void addImageToUndoList()
+	{
+		undoImageList.add(bufferedImage);
+	}
+
+	public void addImageToUndoList(BufferedImage image)
+	{
+		undoImageList.add(image);
+	}
+
+	public void clearUndoImageList()
+	{
+		undoImageList.clear();
+	}
 }

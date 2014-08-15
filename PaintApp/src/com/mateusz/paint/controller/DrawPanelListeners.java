@@ -80,13 +80,10 @@ public class DrawPanelListeners
 		{
 			if (StaticStuff.getShapeType() == ShapeEnum.FILLCLOSEDSHAPE)
 			{
-				int width = drawPanel.getWidth();
-				int height = drawPanel.getHeight();
+				currentDrawingsToImage();
+				clearCurrentDrawings();
 
-				drawingsEdit.setBufferedImageAndGraphicsFromCurrentDrawings(width, height);
 				BufferedImage bufferedImage = drawingsEdit.getBufferedImage();
-				Graphics2D g2d = drawingsEdit.getGraphics2D();
-				drawPanel.currentDrawingsToImage(g2d, bufferedImage);
 
 				Color c = new Color(bufferedImage.getRGB(event.getX(), event.getY()));
 				int red = c.getRed();
@@ -95,6 +92,15 @@ public class DrawPanelListeners
 				Color backgroundColor = new Color(red, green, blue);
 
 				drawingsEdit.floodFill(bufferedImage, event.getPoint(), backgroundColor, StaticStuff.getShapeColor());
+				drawPanel.setImageToDraw(bufferedImage);
+
+				int w = drawPanel.getWidth();
+				int h = drawPanel.getHeight();
+				BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+				Graphics2D g2d = bi.createGraphics();
+				drawPanel.paint(g2d);
+				drawingsEdit.addImageToUndoList(bi);
+
 				drawPanel.repaint();
 			}
 		}
@@ -119,6 +125,7 @@ public class DrawPanelListeners
 		{
 			if (!(drawShape == null))
 			{
+
 				drawShape.setX2(event.getX());
 				drawShape.setY2(event.getY());
 
@@ -127,6 +134,15 @@ public class DrawPanelListeners
 				drawPanel.setTmpShape(null);
 				drawPanel.setShapes(shapes);
 				drawShape = null;
+				// tuatuauutautaut
+
+				int w = drawPanel.getWidth();
+				int h = drawPanel.getHeight();
+				BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+				Graphics2D g2d = bi.createGraphics();
+				drawPanel.paint(g2d);
+				drawingsEdit.addImageToUndoList(bi);
+
 				drawPanel.repaint();
 			}
 		}
@@ -150,6 +166,25 @@ public class DrawPanelListeners
 			break;
 		}
 		return null;
+	}
+
+	private void currentDrawingsToImage()
+	{
+		int width = drawPanel.getWidth();
+		int height = drawPanel.getHeight();
+
+		BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2d = bufferedImage.createGraphics();
+		drawPanel.paint(g2d);
+		drawPanel.setImageToDraw(bufferedImage);
+		drawingsEdit.setBufferedImage(bufferedImage);
+	}
+
+	private void clearCurrentDrawings()
+	{
+		List<Shape> currentShapesDrawings = drawPanel.getShapes();
+		currentShapesDrawings.clear();
+		drawPanel.setImageToDraw(null);
 	}
 
 }

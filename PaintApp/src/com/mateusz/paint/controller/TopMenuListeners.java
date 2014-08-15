@@ -54,7 +54,7 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			getCurrentDrawingsToImage();
+			currentDrawingsToImage();
 			BufferedImage currentDrawingsToImage = drawingsEdit.getBufferedImage();
 			int result = JOptionPane.showConfirmDialog(null, "Do you want to save your progress?", "Save progress?",
 					JOptionPane.YES_NO_CANCEL_OPTION);
@@ -63,10 +63,12 @@ public class TopMenuListeners
 			{
 			case JOptionPane.YES_OPTION:
 				drawingsEdit.saveImageToFile(currentDrawingsToImage);
+				drawingsEdit.clearUndoImageList();
 				clearCurrentDrawings();
 				drawPanel.repaint();
 				break;
 			case JOptionPane.NO_OPTION:
+				drawingsEdit.clearUndoImageList();
 				clearCurrentDrawings();
 				drawPanel.repaint();
 				break;
@@ -120,7 +122,7 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			getCurrentDrawingsToImage();
+			currentDrawingsToImage();
 			BufferedImage currentDrawingsToImage = drawingsEdit.getBufferedImage();
 			drawingsEdit.saveImageToFile(currentDrawingsToImage);
 		}
@@ -133,7 +135,7 @@ public class TopMenuListeners
 		{
 			int result = JOptionPane.showConfirmDialog(null, "Do you want to save your progress?", "Save progress?",
 					JOptionPane.YES_NO_CANCEL_OPTION);
-			getCurrentDrawingsToImage();
+			currentDrawingsToImage();
 			BufferedImage currentDrawingsToImage = drawingsEdit.getBufferedImage();
 
 			switch (result)
@@ -157,14 +159,20 @@ public class TopMenuListeners
 		public void actionPerformed(ActionEvent e)
 		{
 			List<BufferedImage> undoImageList = drawingsEdit.getUndoImageList();
-			int lastImage = undoImageList.size() - 1;
-			drawPanel.setImageToDraw(undoImageList.get(lastImage));
-			undoImageList.remove(lastImage);
-			drawPanel.repaint();
 
-			if (undoImageList.isEmpty())
+			if (undoImageList.size() > 1)
 			{
-				topMenuButtons.setEnabledUndoItem();
+				clearCurrentDrawings();
+				int lastImage = undoImageList.size() - 1;
+				undoImageList.remove(lastImage);
+				int lastImageAfterRemove = undoImageList.size() - 1;
+				drawPanel.setImageToDraw(undoImageList.get(lastImageAfterRemove));
+				drawPanel.repaint();
+			}
+			else
+			{
+				clearCurrentDrawings();
+				drawPanel.repaint();
 			}
 		}
 	}
@@ -176,7 +184,7 @@ public class TopMenuListeners
 		{
 			final int degrees = 90; // positive amount is responsible for rotate
 									// right
-			getCurrentDrawingsToImage();
+			currentDrawingsToImage();
 			clearCurrentDrawings();
 
 			BufferedImage imageToRotate = drawingsEdit.getBufferedImage();
@@ -195,7 +203,7 @@ public class TopMenuListeners
 			final int degrees = -90; // negative amount is responsible for
 										// rotate left
 
-			getCurrentDrawingsToImage();
+			currentDrawingsToImage();
 			clearCurrentDrawings();
 
 			BufferedImage imageToRotate = drawingsEdit.getBufferedImage();
@@ -211,7 +219,7 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			getCurrentDrawingsToImage();
+			currentDrawingsToImage();
 			clearCurrentDrawings();
 
 			BufferedImage imageToRotate = drawingsEdit.getBufferedImage();
@@ -227,7 +235,7 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			getCurrentDrawingsToImage();
+			currentDrawingsToImage();
 			clearCurrentDrawings();
 
 			BufferedImage imageToFlip = drawingsEdit.getBufferedImage();
@@ -243,7 +251,7 @@ public class TopMenuListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			getCurrentDrawingsToImage();
+			currentDrawingsToImage();
 			clearCurrentDrawings();
 
 			BufferedImage imageToFlip = drawingsEdit.getBufferedImage();
@@ -254,15 +262,16 @@ public class TopMenuListeners
 		}
 	}
 
-	private void getCurrentDrawingsToImage()
+	private void currentDrawingsToImage()
 	{
 		int width = drawPanel.getWidth();
 		int height = drawPanel.getHeight();
 
-		drawingsEdit.setBufferedImageAndGraphicsFromCurrentDrawings(width, height);
-		BufferedImage bufferedImage = drawingsEdit.getBufferedImage();
-		Graphics2D g2d = drawingsEdit.getGraphics2D();
-		drawPanel.currentDrawingsToImage(g2d, bufferedImage);
+		BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2d = bufferedImage.createGraphics();
+		drawPanel.paint(g2d);
+		drawPanel.setImageToDraw(bufferedImage);
+		drawingsEdit.setBufferedImage(bufferedImage);
 	}
 
 	private void clearCurrentDrawings()
@@ -271,4 +280,5 @@ public class TopMenuListeners
 		currentShapesDrawings.clear();
 		drawPanel.setImageToDraw(null);
 	}
+
 }
