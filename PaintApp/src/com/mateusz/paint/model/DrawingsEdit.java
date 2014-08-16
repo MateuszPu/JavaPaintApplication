@@ -53,14 +53,21 @@ public class DrawingsEdit extends JComponent
 	{
 		this.undoImageList = undoImageList;
 	}
-
-	public void floodFill(Point pkt)
+	
+	private Color getBackgroundColor(Point pkt)
 	{
 		Color c = new Color(bufferedImage.getRGB((int) pkt.getX(), (int) pkt.getY()));
 		int red = c.getRed();
 		int green = c.getGreen();
 		int blue = c.getBlue();
 		Color backgroundColor = new Color(red, green, blue);
+		
+		return backgroundColor;
+	}
+
+	public void floodFill(Point pkt)
+	{
+		Color backgroundColor = getBackgroundColor(pkt);
 
 		int width = bufferedImage.getWidth();
 		int height = bufferedImage.getHeight();

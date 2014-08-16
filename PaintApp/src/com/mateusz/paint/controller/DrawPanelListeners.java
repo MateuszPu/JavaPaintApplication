@@ -5,11 +5,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import javax.imageio.ImageIO;
 import com.mateusz.paint.enums.ShapeEnum;
 import com.mateusz.paint.model.DrawingsEdit;
 import com.mateusz.paint.model.Model;
@@ -44,7 +40,6 @@ public class DrawPanelListeners
 
 	class MouseMotionListenerForDrawPanel implements MouseMotionListener
 	{
-
 		@Override
 		public void mouseDragged(MouseEvent event)
 		{
