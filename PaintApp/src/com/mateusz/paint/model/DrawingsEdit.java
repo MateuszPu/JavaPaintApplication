@@ -54,12 +54,18 @@ public class DrawingsEdit extends JComponent
 		this.undoImageList = undoImageList;
 	}
 
-	public void floodFill(BufferedImage image, Point pkt, Color targetColor, Color replacementColor)
+	public void floodFill(Point pkt)
 	{
-		int width = image.getWidth();
-		int height = image.getHeight();
-		int target = targetColor.getRGB();
-		int replacement = replacementColor.getRGB();
+		Color c = new Color(bufferedImage.getRGB((int) pkt.getX(), (int) pkt.getY()));
+		int red = c.getRed();
+		int green = c.getGreen();
+		int blue = c.getBlue();
+		Color backgroundColor = new Color(red, green, blue);
+
+		int width = bufferedImage.getWidth();
+		int height = bufferedImage.getHeight();
+		int target = backgroundColor.getRGB();
+		int replacement = StaticStuff.getShapeColor().getRGB();
 
 		if (target != replacement)
 		{
@@ -68,30 +74,30 @@ public class DrawingsEdit extends JComponent
 			{
 				int x = pkt.x;
 				int y = pkt.y;
-				while (x > 0 && image.getRGB(x - 1, y) == target)
+				while (x > 0 && bufferedImage.getRGB(x - 1, y) == target)
 				{
 					x--;
 				}
 				boolean pixelUp = false;
 				boolean pixelDown = false;
-				while (x < width && image.getRGB(x, y) == target)
+				while (x < width && bufferedImage.getRGB(x, y) == target)
 				{
-					image.setRGB(x, y, replacement);
-					if (!pixelUp && y > 0 && image.getRGB(x, y - 1) == target)
+					bufferedImage.setRGB(x, y, replacement);
+					if (!pixelUp && y > 0 && bufferedImage.getRGB(x, y - 1) == target)
 					{
 						queue.add(new Point(x, y - 1));
 						pixelUp = true;
 					}
-					else if (pixelUp && y > 0 && image.getRGB(x, y - 1) != target)
+					else if (pixelUp && y > 0 && bufferedImage.getRGB(x, y - 1) != target)
 					{
 						pixelUp = false;
 					}
-					if (!pixelDown && y < height - 1 && image.getRGB(x, y + 1) == target)
+					if (!pixelDown && y < height - 1 && bufferedImage.getRGB(x, y + 1) == target)
 					{
 						queue.add(new Point(x, y + 1));
 						pixelDown = true;
 					}
-					else if (pixelDown && y < height - 1 && image.getRGB(x, y + 1) != target)
+					else if (pixelDown && y < height - 1 && bufferedImage.getRGB(x, y + 1) != target)
 					{
 						pixelDown = false;
 					}
@@ -139,7 +145,6 @@ public class DrawingsEdit extends JComponent
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}
-
 				else
 				{
 					JOptionPane.showMessageDialog(null, "Wrong extension :( " + "\n Please provide correct extension "
@@ -154,7 +159,7 @@ public class DrawingsEdit extends JComponent
 		}
 	}
 
-	public void flipHorizontal(BufferedImage imageToFlipHorizontal)
+	public void flipHorizontal()
 	{
 		int sx = -1; // sx - factor by which coordinates are scaled along the X
 						// axis direction
@@ -163,15 +168,13 @@ public class DrawingsEdit extends JComponent
 		int ty = 0; // ty - the distance by which coordinates are translated in
 					// the Y axis direction
 
-		undoImageList.add(bufferedImage);
-
 		AffineTransform tx = AffineTransform.getScaleInstance(sx, sy);
-		tx.translate(-imageToFlipHorizontal.getWidth(null), ty);
+		tx.translate(-bufferedImage.getWidth(null), ty);
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-		bufferedImage = op.filter(imageToFlipHorizontal, null);
+		this.bufferedImage = op.filter(bufferedImage, null);
 	}
 
-	public void flipVertical(BufferedImage imageToFlipHorizontal)
+	public void flipVertical()
 	{
 		int sx = 1; // sx - factor by which coordinates are scaled along the X
 					// axis direction
@@ -180,52 +183,46 @@ public class DrawingsEdit extends JComponent
 		int ty = 0; // ty - the distance by which coordinates are translated in
 					// the Y axis direction
 
-		undoImageList.add(bufferedImage);
-
 		AffineTransform transform = AffineTransform.getScaleInstance(sx, sy);
-		transform.translate(ty, -imageToFlipHorizontal.getHeight(null));
+		transform.translate(ty, -bufferedImage.getHeight(null));
 		AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-		bufferedImage = op.filter(imageToFlipHorizontal, null);
+		this.bufferedImage = op.filter(bufferedImage, null);
 	}
 
-	public void rotateImage180Degrees(BufferedImage imageToFlipHorizontal)
+	public void rotateImage180Degrees()
 	{
 		int sx = -1; // sx - factor by which coordinates are scaled along the X
 						// axis direction
 		int sy = -1; // sy - factor by which coordinates are scaled along the Y
 						// axis direction
 
-		undoImageList.add(bufferedImage);
-
 		AffineTransform transform = AffineTransform.getScaleInstance(sx, sy);
 		transform.translate(-bufferedImage.getWidth(null), -bufferedImage.getHeight(null));
 		AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-		bufferedImage = op.filter(imageToFlipHorizontal, null);
+		this.bufferedImage = op.filter(bufferedImage, null);
 	}
 
-	public void rotateRightLeft(BufferedImage imageToFlipHorizontal, int degrees)
+	public void rotateRightLeft(int degrees)
 	{
-		undoImageList.add(bufferedImage);
 
 		AffineTransform tx = new AffineTransform();
-		tx.rotate(Math.toRadians(degrees), imageToFlipHorizontal.getWidth() / 2, imageToFlipHorizontal.getHeight() / 2);
+		tx.rotate(Math.toRadians(degrees), bufferedImage.getWidth() / 2, bufferedImage.getHeight() / 2);
 
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		bufferedImage = op.filter(imageToFlipHorizontal, null);// (sourse,destination)
-	}
-
-	public void addImageToUndoList()
-	{
-		undoImageList.add(bufferedImage);
-	}
-
-	public void addImageToUndoList(BufferedImage image)
-	{
-		undoImageList.add(image);
+		this.bufferedImage = op.filter(bufferedImage, null);// (source,destination)
 	}
 
 	public void clearUndoImageList()
 	{
 		undoImageList.clear();
+	}
+
+	public void getGraphicsAndImageFromDrawings(int width, int height)
+	{
+		BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2d = bufferedImage.createGraphics();
+		this.bufferedImage = bufferedImage;
+		this.graphics2D = g2d;
+		undoImageList.add(bufferedImage);
 	}
 }

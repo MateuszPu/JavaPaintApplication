@@ -1,13 +1,15 @@
 package com.mateusz.paint.controller;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import javax.imageio.ImageIO;
 import com.mateusz.paint.enums.ShapeEnum;
 import com.mateusz.paint.model.DrawingsEdit;
 import com.mateusz.paint.model.Model;
@@ -80,27 +82,10 @@ public class DrawPanelListeners
 		{
 			if (StaticStuff.getShapeType() == ShapeEnum.FILLCLOSEDSHAPE)
 			{
-				currentDrawingsToImage();
 				clearCurrentDrawings();
 
-				BufferedImage bufferedImage = drawingsEdit.getBufferedImage();
-
-				Color c = new Color(bufferedImage.getRGB(event.getX(), event.getY()));
-				int red = c.getRed();
-				int green = c.getGreen();
-				int blue = c.getBlue();
-				Color backgroundColor = new Color(red, green, blue);
-
-				drawingsEdit.floodFill(bufferedImage, event.getPoint(), backgroundColor, StaticStuff.getShapeColor());
-				drawPanel.setImageToDraw(bufferedImage);
-
-				int w = drawPanel.getWidth();
-				int h = drawPanel.getHeight();
-				BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-				Graphics2D g2d = bi.createGraphics();
-				drawPanel.paint(g2d);
-				drawingsEdit.addImageToUndoList(bi);
-
+				drawingsEdit.floodFill(event.getPoint());
+				drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
 				drawPanel.repaint();
 			}
 		}
@@ -117,6 +102,7 @@ public class DrawPanelListeners
 
 		public void mousePressed(MouseEvent event)
 		{
+			currentDrawingsToImage();
 			drawShape = getTmpShape(event.getX(), event.getY(), 2, 2);
 			drawPanel.setTmpShape(drawShape);
 		}
@@ -125,7 +111,6 @@ public class DrawPanelListeners
 		{
 			if (!(drawShape == null))
 			{
-
 				drawShape.setX2(event.getX());
 				drawShape.setY2(event.getY());
 
@@ -134,15 +119,6 @@ public class DrawPanelListeners
 				drawPanel.setTmpShape(null);
 				drawPanel.setShapes(shapes);
 				drawShape = null;
-				// tuatuauutautaut
-
-				int w = drawPanel.getWidth();
-				int h = drawPanel.getHeight();
-				BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-				Graphics2D g2d = bi.createGraphics();
-				drawPanel.paint(g2d);
-				drawingsEdit.addImageToUndoList(bi);
-
 				drawPanel.repaint();
 			}
 		}
@@ -172,12 +148,9 @@ public class DrawPanelListeners
 	{
 		int width = drawPanel.getWidth();
 		int height = drawPanel.getHeight();
+		drawingsEdit.getGraphicsAndImageFromDrawings(width, height);
 
-		BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2d = bufferedImage.createGraphics();
-		drawPanel.paint(g2d);
-		drawPanel.setImageToDraw(bufferedImage);
-		drawingsEdit.setBufferedImage(bufferedImage);
+		drawPanel.paint(drawingsEdit.getGraphics2D());
 	}
 
 	private void clearCurrentDrawings()
@@ -186,5 +159,4 @@ public class DrawPanelListeners
 		currentShapesDrawings.clear();
 		drawPanel.setImageToDraw(null);
 	}
-
 }

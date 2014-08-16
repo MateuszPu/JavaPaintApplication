@@ -5,12 +5,10 @@ import java.util.List;
 public class Model
 {
 	private DrawingsEdit drawingsEdit;
-	private TopMenuEdit topMenuEdit;
 
 	public Model()
 	{
 		setDrawingsEdit(new DrawingsEdit());
-		setTopMenuEdit(new TopMenuEdit());
 	}
 
 	public DrawingsEdit getDrawingsEdit()
@@ -22,15 +20,4 @@ public class Model
 	{
 		this.drawingsEdit = drawingsEdit;
 	}
-
-	public TopMenuEdit getTopMenuEdit()
-	{
-		return topMenuEdit;
-	}
-
-	public void setTopMenuEdit(TopMenuEdit topMenuEdit)
-	{
-		this.topMenuEdit = topMenuEdit;
-	}
-
 }
