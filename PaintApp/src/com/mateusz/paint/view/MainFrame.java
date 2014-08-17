@@ -1,8 +1,6 @@
 package com.mateusz.paint.view;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,31 +18,15 @@ public class MainFrame extends JFrame
 	{
 		super("Paint Application");
 		prepareFrame();
-		// setLayout(new GridBagLayout());
-		// GridBagConstraints constraints = new GridBagConstraints();
-
 		initializeToolsMenuComponents();
 		initializeTopMenuComponents();
 		initializeDrawPanel();
 
-		JScrollPane scrollPane = new JScrollPane(drawPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		JScrollPane scrollPane = new JScrollPane(drawPanel);
 		JPanel mainLayoutforApplication = new JPanel(new BorderLayout());
 		mainLayoutforApplication.add(toolsMenu, BorderLayout.WEST);
 		mainLayoutforApplication.add(scrollPane, BorderLayout.CENTER);
 		add(mainLayoutforApplication);
-
-		// // constraints.gridheight = 1;
-		// // constraints.gridwidth = 1;
-		// constraints.gridx = 0;
-		// constraints.gridy = 0;
-		// // constraints.weightx = 1.0;
-		// // constraints.weighty = 1.0;
-		// constraints.fill = GridBagConstraints.BOTH;
-		//
-		// add(toolsMenu, constraints);
-		// constraints.gridx = 1;
-		// add(scrollPane, constraints);
 	}
 
 	public void prepareFrame()
@@ -55,7 +37,6 @@ public class MainFrame extends JFrame
 		setSize(width, height);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		// setResizable(false);
 		setVisible(true);
 	}
 

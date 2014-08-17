@@ -3,7 +3,7 @@ package com.mateusz.paint.model;
 import java.awt.Color;
 import com.mateusz.paint.enums.ShapeEnum;
 
-public class StaticStuff
+public class StaticStuffColorAndShape
 {
 	private static ShapeEnum shapeType = ShapeEnum.PENCIL;
 	private static Color shapeColor = Color.BLACK;
@@ -15,7 +15,7 @@ public class StaticStuff
 
 	public static void setShapeType(ShapeEnum shapeType)
 	{
-		StaticStuff.shapeType = shapeType;
+		StaticStuffColorAndShape.shapeType = shapeType;
 	}
 
 	public static Color getShapeColor()
@@ -25,6 +25,6 @@ public class StaticStuff
 
 	public static void setShapeColor(Color shapeColor)
 	{
-		StaticStuff.shapeColor = shapeColor;
+		StaticStuffColorAndShape.shapeColor = shapeColor;
 	}
 }

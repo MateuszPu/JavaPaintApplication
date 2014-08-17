@@ -3,15 +3,12 @@ package com.mateusz.paint.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import org.apache.log4j.Logger;
-import com.mateusz.paint.model.StaticStuff;
+import com.mateusz.paint.model.StaticStuffColorAndShape;
 
 public class ToolsMenu extends JPanel
 {
@@ -51,8 +48,8 @@ public class ToolsMenu extends JPanel
 
 		colorButton = new JButton();
 		colorButton.setToolTipText("Select color");
-		colorButton.setForeground(StaticStuff.getShapeColor());
-		colorButton.setBackground(StaticStuff.getShapeColor());
+		colorButton.setForeground(StaticStuffColorAndShape.getShapeColor());
+		colorButton.setBackground(StaticStuffColorAndShape.getShapeColor());
 
 		this.add(circleButton);
 		this.add(rectangleButton);

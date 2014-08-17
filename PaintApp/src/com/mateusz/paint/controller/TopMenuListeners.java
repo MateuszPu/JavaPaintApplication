@@ -1,7 +1,6 @@
 package com.mateusz.paint.controller;
 
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -55,21 +54,22 @@ public class TopMenuListeners
 		public void actionPerformed(ActionEvent event)
 		{
 			currentDrawingsToImage();
-			BufferedImage imageToSave = drawingsEdit.getBufferedImage();
 			int result = JOptionPane.showConfirmDialog(null, "Do you want to save your progress?", "Save progress?",
 					JOptionPane.YES_NO_CANCEL_OPTION);
 
 			switch (result)
 			{
 			case JOptionPane.YES_OPTION:
-				drawingsEdit.saveImageToFile(imageToSave);
+				drawingsEdit.saveImageToFile();
 				drawingsEdit.clearUndoImageList();
 				clearCurrentDrawings();
+				drawPanel.setPreferredSizeSizeOfPanel();
 				drawPanel.repaint();
 				break;
 			case JOptionPane.NO_OPTION:
 				drawingsEdit.clearUndoImageList();
 				clearCurrentDrawings();
+				drawPanel.setPreferredSizeSizeOfPanel();
 				drawPanel.repaint();
 				break;
 			case JOptionPane.CANCEL_OPTION:
@@ -123,8 +123,7 @@ public class TopMenuListeners
 		public void actionPerformed(ActionEvent event)
 		{
 			currentDrawingsToImage();
-			BufferedImage currentDrawingsToImage = drawingsEdit.getBufferedImage();
-			drawingsEdit.saveImageToFile(currentDrawingsToImage);
+			drawingsEdit.saveImageToFile();
 		}
 	}
 
@@ -136,12 +135,11 @@ public class TopMenuListeners
 			int result = JOptionPane.showConfirmDialog(null, "Do you want to save your progress?", "Save progress?",
 					JOptionPane.YES_NO_CANCEL_OPTION);
 			currentDrawingsToImage();
-			BufferedImage imageToSave = drawingsEdit.getBufferedImage();
 
 			switch (result)
 			{
 			case JOptionPane.YES_OPTION:
-				drawingsEdit.saveImageToFile(imageToSave);
+				drawingsEdit.saveImageToFile();
 				System.exit(0);
 				break;
 			case JOptionPane.NO_OPTION:
@@ -159,30 +157,14 @@ public class TopMenuListeners
 		public void actionPerformed(ActionEvent e)
 		{
 			List<BufferedImage> undoImageList = drawingsEdit.getUndoImageList();
-			int lastImageInList = undoImageList.size() - 1;
-
-			// sadsad
-			int i = 0;
-			for (BufferedImage image : undoImageList)
-			{
-				String nameFile = "out" + i;
-				try
-				{
-					ImageIO.write(image, "jpg", new File("C:\\" + nameFile + ".jpg"));
-				}
-				catch (IOException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				i++;
-			}
 
 			if (undoImageList.size() > 1)
 			{
 				clearCurrentDrawings();
-				drawPanel.setImageToDraw(undoImageList.get(lastImageInList));
-				undoImageList.remove(lastImageInList);
+				int lastImageInUndoList = undoImageList.size() - 1;
+				undoImageList.remove(lastImageInUndoList);
+				int lastImageInUndoListAfterRemove = undoImageList.size() - 1;
+				drawPanel.setImageToDraw(undoImageList.get(lastImageInUndoListAfterRemove));
 				drawPanel.repaint();
 			}
 			else
@@ -207,6 +189,7 @@ public class TopMenuListeners
 			drawingsEdit.rotateRightLeft(degrees);
 			drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
 			drawPanel.repaint();
+			drawingsEdit.addImageToUndoList();
 		}
 	}
 
@@ -223,6 +206,7 @@ public class TopMenuListeners
 			drawingsEdit.rotateRightLeft(degrees);
 			drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
 			drawPanel.repaint();
+			drawingsEdit.addImageToUndoList();
 		}
 	}
 
@@ -237,6 +221,7 @@ public class TopMenuListeners
 			drawingsEdit.rotateImage180Degrees();
 			drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
 			drawPanel.repaint();
+			drawingsEdit.addImageToUndoList();
 		}
 	}
 
@@ -251,6 +236,7 @@ public class TopMenuListeners
 			drawingsEdit.flipVertical();
 			drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
 			drawPanel.repaint();
+			drawingsEdit.addImageToUndoList();
 		}
 	}
 
@@ -265,6 +251,7 @@ public class TopMenuListeners
 			drawingsEdit.flipHorizontal();
 			drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
 			drawPanel.repaint();
+			drawingsEdit.addImageToUndoList();
 		}
 	}
 
@@ -273,7 +260,6 @@ public class TopMenuListeners
 		int width = drawPanel.getWidth();
 		int height = drawPanel.getHeight();
 		drawingsEdit.getGraphicsAndImageFromDrawings(width, height);
-
 		drawPanel.paint(drawingsEdit.getGraphics2D());
 	}
 

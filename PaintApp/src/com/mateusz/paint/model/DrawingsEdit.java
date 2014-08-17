@@ -53,7 +53,7 @@ public class DrawingsEdit extends JComponent
 	{
 		this.undoImageList = undoImageList;
 	}
-	
+
 	private Color getBackgroundColor(Point pkt)
 	{
 		Color c = new Color(bufferedImage.getRGB((int) pkt.getX(), (int) pkt.getY()));
@@ -61,18 +61,17 @@ public class DrawingsEdit extends JComponent
 		int green = c.getGreen();
 		int blue = c.getBlue();
 		Color backgroundColor = new Color(red, green, blue);
-		
+
 		return backgroundColor;
 	}
 
 	public void floodFill(Point pkt)
 	{
-		Color backgroundColor = getBackgroundColor(pkt);
-
 		int width = bufferedImage.getWidth();
 		int height = bufferedImage.getHeight();
+		Color backgroundColor = getBackgroundColor(pkt);
 		int target = backgroundColor.getRGB();
-		int replacement = StaticStuff.getShapeColor().getRGB();
+		int replacement = StaticStuffColorAndShape.getShapeColor().getRGB();
 
 		if (target != replacement)
 		{
@@ -115,7 +114,7 @@ public class DrawingsEdit extends JComponent
 		}
 	}
 
-	public void saveImageToFile(BufferedImage imageReaded)
+	public void saveImageToFile()
 	{
 		boolean isCorrectExtension = false;
 
@@ -142,7 +141,7 @@ public class DrawingsEdit extends JComponent
 				{
 					try
 					{
-						ImageIO.write(imageReaded, saveType, outPath);
+						ImageIO.write(bufferedImage, saveType, outPath);
 						isCorrectExtension = true;
 					}
 					catch (IOException | NullPointerException e)
@@ -224,12 +223,16 @@ public class DrawingsEdit extends JComponent
 		undoImageList.clear();
 	}
 
+	public void addImageToUndoList()
+	{
+		undoImageList.add(bufferedImage);
+	}
+
 	public void getGraphicsAndImageFromDrawings(int width, int height)
 	{
 		BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = bufferedImage.createGraphics();
 		this.bufferedImage = bufferedImage;
 		this.graphics2D = g2d;
-		undoImageList.add(bufferedImage);
 	}
 }

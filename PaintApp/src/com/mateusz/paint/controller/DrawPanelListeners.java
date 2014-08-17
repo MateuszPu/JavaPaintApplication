@@ -9,7 +9,7 @@ import java.util.List;
 import com.mateusz.paint.enums.ShapeEnum;
 import com.mateusz.paint.model.DrawingsEdit;
 import com.mateusz.paint.model.Model;
-import com.mateusz.paint.model.StaticStuff;
+import com.mateusz.paint.model.StaticStuffColorAndShape;
 import com.mateusz.paint.model.shapes.Circle;
 import com.mateusz.paint.model.shapes.Line;
 import com.mateusz.paint.model.shapes.Pencil;
@@ -68,20 +68,21 @@ public class DrawPanelListeners
 		public void mouseMoved(MouseEvent event)
 		{
 		}
-
 	}
 
 	class MouseListenerForDrawPanel implements MouseListener
 	{
 		public void mouseClicked(MouseEvent event)
 		{
-			if (StaticStuff.getShapeType() == ShapeEnum.FILLCLOSEDSHAPE)
+			if (StaticStuffColorAndShape.getShapeType() == ShapeEnum.FILLCLOSEDSHAPE)
 			{
+				currentDrawingsToImage();
 				clearCurrentDrawings();
 
 				drawingsEdit.floodFill(event.getPoint());
 				drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
 				drawPanel.repaint();
+				drawingsEdit.addImageToUndoList();
 			}
 		}
 
@@ -97,7 +98,6 @@ public class DrawPanelListeners
 
 		public void mousePressed(MouseEvent event)
 		{
-			currentDrawingsToImage();
 			drawShape = getTmpShape(event.getX(), event.getY(), 2, 2);
 			drawPanel.setTmpShape(drawShape);
 		}
@@ -106,6 +106,7 @@ public class DrawPanelListeners
 		{
 			if (!(drawShape == null))
 			{
+				currentDrawingsToImage();
 				drawShape.setX2(event.getX());
 				drawShape.setY2(event.getY());
 
@@ -114,23 +115,25 @@ public class DrawPanelListeners
 				drawPanel.setTmpShape(null);
 				drawPanel.setShapes(shapes);
 				drawShape = null;
+
 				drawPanel.repaint();
+				drawingsEdit.addImageToUndoList();
 			}
 		}
 	}
 
 	private Shape getTmpShape(int x, int y, int x2, int y2)
 	{
-		switch (StaticStuff.getShapeType())
+		switch (StaticStuffColorAndShape.getShapeType())
 		{
 		case RECTANGLE:
-			return new Rectangle(x, y, x2, y2, StaticStuff.getShapeColor());
+			return new Rectangle(x, y, x2, y2, StaticStuffColorAndShape.getShapeColor());
 		case CIRCLE:
-			return new Circle(x, y, x2, y2, StaticStuff.getShapeColor());
+			return new Circle(x, y, x2, y2, StaticStuffColorAndShape.getShapeColor());
 		case PENCIL:
-			return new Pencil(x, y, x2, y2, StaticStuff.getShapeColor());
+			return new Pencil(x, y, x2, y2, StaticStuffColorAndShape.getShapeColor());
 		case LINE:
-			return new Line(x, y, x2, y2, StaticStuff.getShapeColor());
+			return new Line(x, y, x2, y2, StaticStuffColorAndShape.getShapeColor());
 		case RUBBER:
 			return new Rubber(x, y, x2, y2, Color.WHITE);
 		default:

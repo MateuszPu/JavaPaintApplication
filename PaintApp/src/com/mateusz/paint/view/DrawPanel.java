@@ -3,7 +3,6 @@ package com.mateusz.paint.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
@@ -21,10 +20,15 @@ public class DrawPanel extends JPanel
 	public DrawPanel()
 	{
 		setOpaque(true);
+		setPreferredSizeSizeOfPanel();
+		setBackground(Color.WHITE);
+	}
+
+	public void setPreferredSizeSizeOfPanel()
+	{
 		int width = 400;
 		int height = 400;
 		setPreferredSize(new Dimension(width, height));
-		setBackground(Color.WHITE);
 	}
 
 	public void addDrawPanelMouseListener(MouseListener listenForMouse)

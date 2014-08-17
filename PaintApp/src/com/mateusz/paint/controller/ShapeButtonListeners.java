@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JColorChooser;
 import com.mateusz.paint.enums.ShapeEnum;
-import com.mateusz.paint.model.StaticStuff;
+import com.mateusz.paint.model.StaticStuffColorAndShape;
 import com.mateusz.paint.view.MainFrame;
 import com.mateusz.paint.view.ToolsMenu;
 
@@ -18,7 +18,7 @@ public class ShapeButtonListeners
 	{
 		this.view = view;
 		toolsMenuButtons = view.getToolsMenu();
-		
+
 		toolsMenuButtons.addRectangleListener(new RectangleListener());
 		toolsMenuButtons.addCircleListener(new CircleListener());
 		toolsMenuButtons.addLineListener(new LineListener());
@@ -30,12 +30,12 @@ public class ShapeButtonListeners
 
 	class ColorListener implements ActionListener
 	{
-
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			Color selectedColor = JColorChooser.showDialog(view, "Chose color:", StaticStuff.getShapeColor());
-			StaticStuff.setShapeColor(selectedColor);
+			Color selectedColor = JColorChooser.showDialog(view, "Chose color:",
+					StaticStuffColorAndShape.getShapeColor());
+			StaticStuffColorAndShape.setShapeColor(selectedColor);
 			view.getToolsMenu().setColor(selectedColor);
 		}
 	}
@@ -45,7 +45,7 @@ public class ShapeButtonListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			StaticStuff.setShapeType(ShapeEnum.RECTANGLE);
+			StaticStuffColorAndShape.setShapeType(ShapeEnum.RECTANGLE);
 		}
 	}
 
@@ -54,7 +54,7 @@ public class ShapeButtonListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			StaticStuff.setShapeType(ShapeEnum.CIRCLE);
+			StaticStuffColorAndShape.setShapeType(ShapeEnum.CIRCLE);
 		}
 	}
 
@@ -63,7 +63,7 @@ public class ShapeButtonListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			StaticStuff.setShapeType(ShapeEnum.LINE);
+			StaticStuffColorAndShape.setShapeType(ShapeEnum.LINE);
 		}
 	}
 
@@ -72,7 +72,7 @@ public class ShapeButtonListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			StaticStuff.setShapeType(ShapeEnum.PENCIL);
+			StaticStuffColorAndShape.setShapeType(ShapeEnum.PENCIL);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class ShapeButtonListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			StaticStuff.setShapeType(ShapeEnum.RUBBER);
+			StaticStuffColorAndShape.setShapeType(ShapeEnum.RUBBER);
 		}
 	}
 
@@ -90,7 +90,7 @@ public class ShapeButtonListeners
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			StaticStuff.setShapeType(ShapeEnum.FILLCLOSEDSHAPE);
+			StaticStuffColorAndShape.setShapeType(ShapeEnum.FILLCLOSEDSHAPE);
 		}
 
 	}
