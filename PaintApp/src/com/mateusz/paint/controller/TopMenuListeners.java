@@ -18,21 +18,19 @@ import com.mateusz.paint.view.DrawPanel;
 import com.mateusz.paint.view.MainFrame;
 import com.mateusz.paint.view.TopMenu;
 
-public class TopMenuListeners
+public class TopMenuListeners extends SuperControllerForPanel
 {
-	private MainFrame view;
-	private Model model;
-	private TopMenu topMenuButtons;
 	private DrawPanel drawPanel;
 	private DrawingsEdit drawingsEdit;
+	private TopMenu topMenuButtons;
 
 	public TopMenuListeners(MainFrame view, Model model)
 	{
-		this.view = view;
-		this.model = model;
+		super(view, model);
+		drawPanel = super.getDrawPanel();
+		drawingsEdit = super.getDrawingsEdit();
+
 		topMenuButtons = view.getTopMenu();
-		drawPanel = view.getDrawPanel();
-		drawingsEdit = model.getDrawingsEdit();
 
 		topMenuButtons.addNewListener(new NewMenuListener());
 		topMenuButtons.addOpenListener(new OpenMenuListener());
@@ -109,7 +107,7 @@ public class TopMenuListeners
 				}
 				catch (IOException ex)
 				{
-					JOptionPane.showMessageDialog(view,
+					JOptionPane.showMessageDialog(getView(),
 							"Open error for \"" + file.getPath() + "\" : " + ex.getMessage(), "Unable to Open file",
 							JOptionPane.ERROR_MESSAGE);
 				}
@@ -255,18 +253,13 @@ public class TopMenuListeners
 		}
 	}
 
-	private void currentDrawingsToImage()
+	protected void currentDrawingsToImage()
 	{
-		int width = drawPanel.getWidth();
-		int height = drawPanel.getHeight();
-		drawingsEdit.getGraphicsAndImageFromDrawings(width, height);
-		drawPanel.paint(drawingsEdit.getGraphics2D());
+		super.currentDrawingsToImage();
 	}
 
-	private void clearCurrentDrawings()
+	protected void clearCurrentDrawings()
 	{
-		List<Shape> currentShapesDrawings = drawPanel.getShapes();
-		currentShapesDrawings.clear();
-		drawPanel.setImageToDraw(null);
+		super.clearCurrentDrawings();
 	}
 }

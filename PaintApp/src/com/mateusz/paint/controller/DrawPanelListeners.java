@@ -19,20 +19,19 @@ import com.mateusz.paint.model.shapes.Shape;
 import com.mateusz.paint.view.DrawPanel;
 import com.mateusz.paint.view.MainFrame;
 
-public class DrawPanelListeners
+public class DrawPanelListeners extends SuperControllerForPanel
 {
-	private MainFrame view;
-	private Model model;
 	private DrawPanel drawPanel;
 	private DrawingsEdit drawingsEdit;
+
 	private Shape drawShape;
 
 	public DrawPanelListeners(MainFrame view, Model model)
 	{
-		this.view = view;
-		this.model = model;
-		drawPanel = view.getDrawPanel();
-		drawingsEdit = model.getDrawingsEdit();
+		super(view, model);
+		
+		drawPanel = super.getDrawPanel();
+		drawingsEdit = super.getDrawingsEdit();
 
 		drawPanel.addDrawPanelMouseListener(new MouseListenerForDrawPanel());
 		drawPanel.addDrawPanelMouseMotionListener(new MouseMotionListenerForDrawPanel());
@@ -58,8 +57,8 @@ public class DrawPanelListeners
 					drawShape.setX2(event.getX());
 					drawShape.setY2(event.getY());
 				}
-				view.getDrawPanel().setTmpShape(drawShape);
-				view.getDrawPanel().repaint();
+				drawPanel.setTmpShape(drawShape);
+				drawPanel.repaint();
 			}
 		}
 
@@ -142,19 +141,13 @@ public class DrawPanelListeners
 		return null;
 	}
 
-	private void currentDrawingsToImage()
+	protected void currentDrawingsToImage()
 	{
-		int width = drawPanel.getWidth();
-		int height = drawPanel.getHeight();
-		drawingsEdit.getGraphicsAndImageFromDrawings(width, height);
-
-		drawPanel.paint(drawingsEdit.getGraphics2D());
+		super.currentDrawingsToImage();
 	}
 
-	private void clearCurrentDrawings()
+	protected void clearCurrentDrawings()
 	{
-		List<Shape> currentShapesDrawings = drawPanel.getShapes();
-		currentShapesDrawings.clear();
-		drawPanel.setImageToDraw(null);
+		super.clearCurrentDrawings();
 	}
 }

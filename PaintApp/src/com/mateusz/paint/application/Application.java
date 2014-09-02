@@ -26,7 +26,6 @@ public class Application
 		Model model = new Model();
 
 		MainFrame view = new MainFrame(model);
-		Controller controller = new Controller(view, model);
-
+		new Controller(view, model);
 	}
 }
