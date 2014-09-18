@@ -7,39 +7,38 @@ import com.mateusz.paint.model.shapes.Shape;
 import com.mateusz.paint.view.DrawPanel;
 import com.mateusz.paint.view.MainFrame;
 
-public class SuperControllerForPanel
+public abstract class SuperControllerForPanel
 {
 	private MainFrame view;
 	private Model model;
 	private DrawPanel drawPanel;
 	private DrawingsEdit drawingsEdit;
 
-	public SuperControllerForPanel(MainFrame view, Model model)
+	protected SuperControllerForPanel(MainFrame view, Model model)
 	{
 		this.setView(view);
 		this.model = model;
 
 		drawPanel = view.getDrawPanel();
 		drawingsEdit = model.getDrawingsEdit();
-
 	}
 
-	public MainFrame getView()
+	protected MainFrame getView()
 	{
 		return view;
 	}
 
-	public void setView(MainFrame view)
+	protected void setView(MainFrame view)
 	{
 		this.view = view;
 	}
 
-	public DrawPanel getDrawPanel()
+	protected DrawPanel getDrawPanel()
 	{
 		return drawPanel;
 	}
 
-	public DrawingsEdit getDrawingsEdit()
+	protected DrawingsEdit getDrawingsEdit()
 	{
 		return drawingsEdit;
 	}

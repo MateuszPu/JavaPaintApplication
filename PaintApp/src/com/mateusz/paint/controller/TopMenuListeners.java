@@ -52,8 +52,8 @@ public class TopMenuListeners extends SuperControllerForPanel
 		public void actionPerformed(ActionEvent event)
 		{
 			currentDrawingsToImage();
-			int result = JOptionPane.showConfirmDialog(null, "Do you want to save your progress?", "Save progress?",
-					JOptionPane.YES_NO_CANCEL_OPTION);
+			int result = JOptionPane.showConfirmDialog(null, "Do you want to save your progress?",
+					"Save progress?", JOptionPane.YES_NO_CANCEL_OPTION);
 
 			switch (result)
 			{
@@ -86,7 +86,8 @@ public class TopMenuListeners extends SuperControllerForPanel
 			JFileChooser openFile = new JFileChooser();
 			openFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 			openFile.setAcceptAllFileFilterUsed(false);
-			openFile.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "bmp", "jpeg"));
+			openFile.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png",
+					"bmp", "jpeg"));
 
 			int result = openFile.showOpenDialog(openFile);
 
@@ -107,8 +108,8 @@ public class TopMenuListeners extends SuperControllerForPanel
 				}
 				catch (IOException ex)
 				{
-					JOptionPane.showMessageDialog(getView(),
-							"Open error for \"" + file.getPath() + "\" : " + ex.getMessage(), "Unable to Open file",
+					JOptionPane.showMessageDialog(getView(), "Open error for \"" + file.getPath()
+							+ "\" : " + ex.getMessage(), "Unable to Open file",
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -130,8 +131,8 @@ public class TopMenuListeners extends SuperControllerForPanel
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			int result = JOptionPane.showConfirmDialog(null, "Do you want to save your progress?", "Save progress?",
-					JOptionPane.YES_NO_CANCEL_OPTION);
+			int result = JOptionPane.showConfirmDialog(null, "Do you want to save your progress?",
+					"Save progress?", JOptionPane.YES_NO_CANCEL_OPTION);
 			currentDrawingsToImage();
 
 			switch (result)
@@ -251,15 +252,5 @@ public class TopMenuListeners extends SuperControllerForPanel
 			drawPanel.repaint();
 			drawingsEdit.addImageToUndoList();
 		}
-	}
-
-	protected void currentDrawingsToImage()
-	{
-		super.currentDrawingsToImage();
-	}
-
-	protected void clearCurrentDrawings()
-	{
-		super.clearCurrentDrawings();
 	}
 }

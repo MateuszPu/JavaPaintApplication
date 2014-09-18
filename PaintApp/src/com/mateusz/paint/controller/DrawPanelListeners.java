@@ -29,7 +29,7 @@ public class DrawPanelListeners extends SuperControllerForPanel
 	public DrawPanelListeners(MainFrame view, Model model)
 	{
 		super(view, model);
-		
+
 		drawPanel = super.getDrawPanel();
 		drawingsEdit = super.getDrawingsEdit();
 
@@ -139,15 +139,5 @@ public class DrawPanelListeners extends SuperControllerForPanel
 			break;
 		}
 		return null;
-	}
-
-	protected void currentDrawingsToImage()
-	{
-		super.currentDrawingsToImage();
-	}
-
-	protected void clearCurrentDrawings()
-	{
-		super.clearCurrentDrawings();
 	}
 }
