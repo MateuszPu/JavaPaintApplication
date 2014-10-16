@@ -92,6 +92,5 @@ public class ShapeButtonListeners
 		{
 			StaticStuffColorAndShape.setShapeType(ShapeEnum.FILLCLOSEDSHAPE);
 		}
-
 	}
 }

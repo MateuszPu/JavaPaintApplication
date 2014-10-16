@@ -100,5 +100,4 @@ public class ToolsMenu extends JPanel
 		colorButton.setForeground(color);
 		colorButton.setBackground(color);
 	}
-
 }

@@ -8,10 +8,9 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Stack;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -22,7 +21,7 @@ public class DrawingsEdit extends JComponent
 {
 	private BufferedImage bufferedImage;
 	private Graphics2D graphics2D;
-	private List<BufferedImage> undoImageList = new ArrayList<>();
+	private Stack<BufferedImage> undoImageList = new Stack<>();
 
 	public BufferedImage getBufferedImage()
 	{
@@ -44,12 +43,12 @@ public class DrawingsEdit extends JComponent
 		graphics2D = graphics2d;
 	}
 
-	public List<BufferedImage> getUndoImageList()
+	public Stack<BufferedImage> getUndoImageList()
 	{
 		return undoImageList;
 	}
 
-	public void setUndoImageList(List<BufferedImage> undoImageList)
+	public void setUndoImageList(Stack<BufferedImage> undoImageList)
 	{
 		this.undoImageList = undoImageList;
 	}

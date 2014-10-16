@@ -17,7 +17,7 @@ public abstract class SuperControllerForPanel
 	protected SuperControllerForPanel(MainFrame view, Model model)
 	{
 		this.setView(view);
-		this.model = model;
+		this.setModel(model);
 
 		drawPanel = view.getDrawPanel();
 		drawingsEdit = model.getDrawingsEdit();
@@ -56,5 +56,15 @@ public abstract class SuperControllerForPanel
 		List<Shape> currentShapesDrawings = drawPanel.getShapes();
 		currentShapesDrawings.clear();
 		drawPanel.setImageToDraw(null);
+	}
+
+	public Model getModel()
+	{
+		return model;
+	}
+
+	public void setModel(Model model)
+	{
+		this.model = model;
 	}
 }

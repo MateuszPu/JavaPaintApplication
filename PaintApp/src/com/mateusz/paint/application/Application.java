@@ -7,7 +7,6 @@ import com.mateusz.paint.view.MainFrame;
 
 public class Application
 {
-
 	public static void main(String[] args)
 	{
 		SwingUtilities.invokeLater(new Runnable()
@@ -18,13 +17,11 @@ public class Application
 				runApplication();
 			}
 		});
-
 	}
 
 	public static void runApplication()
 	{
 		Model model = new Model();
-
 		MainFrame view = new MainFrame(model);
 		new Controller(view, model);
 	}

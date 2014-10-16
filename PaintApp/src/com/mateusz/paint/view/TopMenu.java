@@ -121,5 +121,4 @@ public class TopMenu extends JMenuBar
 	{
 		flipHorizontalItem.addActionListener(listenerForFlipHorizontal);
 	}
-
 }

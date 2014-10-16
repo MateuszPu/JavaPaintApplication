@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Stack;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -29,7 +30,6 @@ public class TopMenuListeners extends SuperControllerForPanel
 		super(view, model);
 		drawPanel = super.getDrawPanel();
 		drawingsEdit = super.getDrawingsEdit();
-
 		topMenuButtons = view.getTopMenu();
 
 		topMenuButtons.addNewListener(new NewMenuListener());
@@ -155,15 +155,13 @@ public class TopMenuListeners extends SuperControllerForPanel
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			List<BufferedImage> undoImageList = drawingsEdit.getUndoImageList();
+			Stack<BufferedImage> undoImageList = drawingsEdit.getUndoImageList();
 
 			if (undoImageList.size() > 1)
 			{
 				clearCurrentDrawings();
-				int lastImageInUndoList = undoImageList.size() - 1;
-				undoImageList.remove(lastImageInUndoList);
-				int lastImageInUndoListAfterRemove = undoImageList.size() - 1;
-				drawPanel.setImageToDraw(undoImageList.get(lastImageInUndoListAfterRemove));
+				undoImageList.pop();
+				drawPanel.setImageToDraw(undoImageList.peek());
 				drawPanel.repaint();
 			}
 			else
