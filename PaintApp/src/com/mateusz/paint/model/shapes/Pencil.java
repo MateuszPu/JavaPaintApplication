@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Pencil extends Shape
 {
-
 	private List<Point> points = new ArrayList<>();
 
 	public Pencil(int x, int y, int x2, int y2, Color c)

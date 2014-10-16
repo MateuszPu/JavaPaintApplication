@@ -12,9 +12,8 @@ import com.mateusz.paint.model.StaticStuffColorAndShape;
 
 public class ToolsMenu extends JPanel
 {
-
-	private JButton colorButton, rectangleButton, circleButton, pencilButton, lineButton, rubberButton,
-			fillClosedShapeButton;
+	private JButton colorButton, rectangleButton, circleButton, pencilButton, lineButton,
+			rubberButton, fillClosedShapeButton;
 	private JLabel tipText;
 
 	public ToolsMenu()

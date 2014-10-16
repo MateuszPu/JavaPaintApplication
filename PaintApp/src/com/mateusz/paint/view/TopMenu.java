@@ -8,11 +8,10 @@ import javax.swing.JMenuItem;
 
 public class TopMenu extends JMenuBar
 {
-
 	private JMenuBar menuBar;
 	private JMenu menuFile, menuRotate, menuEdit;
-	private JMenuItem newItem, openItem, saveItem, exitItem, undoItem, rotate90RightItem, rotate90RLeftItem,
-			rotate180Item, flipVerticalItem, flipHorizontalItem;
+	private JMenuItem newItem, openItem, saveItem, exitItem, undoItem, rotate90RightItem,
+			rotate90RLeftItem, rotate180Item, flipVerticalItem, flipHorizontalItem;
 
 	public TopMenu()
 	{
@@ -51,22 +50,21 @@ public class TopMenu extends JMenuBar
 		menuBar.add(menuRotate);
 
 		// add items to menu "Rotate"
-		rotate90RightItem = new JMenuItem("Rotate 90° right", new ImageIcon("images/menu/rotate90right.png"));
+		rotate90RightItem = new JMenuItem("Rotate 90° right", new ImageIcon(
+				"images/menu/rotate90right.png"));
 		menuRotate.add(rotate90RightItem);
-		rotate90RLeftItem = new JMenuItem("Rotate 90° left", new ImageIcon("images/menu/rotate90left.png"));
+		rotate90RLeftItem = new JMenuItem("Rotate 90° left", new ImageIcon(
+				"images/menu/rotate90left.png"));
 		menuRotate.add(rotate90RLeftItem);
 		rotate180Item = new JMenuItem("Rotate 180°", new ImageIcon("images/menu/rotate180.png"));
 		menuRotate.add(rotate180Item);
-		flipVerticalItem = new JMenuItem("Flip Vertical", new ImageIcon("images/menu/flipvertical.png"));
+		flipVerticalItem = new JMenuItem("Flip Vertical", new ImageIcon(
+				"images/menu/flipvertical.png"));
 		menuRotate.add(flipVerticalItem);
-		flipHorizontalItem = new JMenuItem("Flip Horizontal", new ImageIcon("images/menu/fliphorizontal.png"));
+		flipHorizontalItem = new JMenuItem("Flip Horizontal", new ImageIcon(
+				"images/menu/fliphorizontal.png"));
 		menuRotate.add(flipHorizontalItem);
 
-	}
-
-	public void setEnabledUndoItem()
-	{
-		undoItem.setEnabled(false);
 	}
 
 	public JMenuBar getMenuBar()

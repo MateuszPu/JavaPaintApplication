@@ -23,7 +23,6 @@ public class DrawPanelListeners extends SuperControllerForPanel
 {
 	private DrawPanel drawPanel;
 	private DrawingsEdit drawingsEdit;
-
 	private Shape drawShape;
 
 	public DrawPanelListeners(MainFrame view, Model model)

@@ -5,7 +5,6 @@ import java.awt.Graphics;
 
 public class Line extends Shape
 {
-
 	public Line(int x, int y, int x2, int y2, Color c)
 	{
 		super(x, y, x2, y2, c);
@@ -17,5 +16,4 @@ public class Line extends Shape
 		g.setColor(getColor());
 		g.drawLine(getX(), getY(), getX2(), getY2());
 	}
-
 }

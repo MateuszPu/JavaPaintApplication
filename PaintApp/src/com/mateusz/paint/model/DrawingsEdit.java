@@ -103,7 +103,8 @@ public class DrawingsEdit extends JComponent
 						queue.add(new Point(x, y + 1));
 						pixelDown = true;
 					}
-					else if (pixelDown && y < height - 1 && bufferedImage.getRGB(x, y + 1) != target)
+					else if (pixelDown && y < height - 1
+							&& bufferedImage.getRGB(x, y + 1) != target)
 					{
 						pixelDown = false;
 					}
@@ -134,7 +135,8 @@ public class DrawingsEdit extends JComponent
 			if (optionChosenByUser == JFileChooser.APPROVE_OPTION)
 			{
 				File outPath = saveAs.getSelectedFile();
-				String saveType = outPath.getName().substring(outPath.getName().lastIndexOf(".") + 1);
+				String saveType = outPath.getName().substring(
+						outPath.getName().lastIndexOf(".") + 1);
 
 				if (saveType.equalsIgnoreCase("png") || saveType.equalsIgnoreCase("jpg")
 						|| saveType.equalsIgnoreCase("bmp") || saveType.equalsIgnoreCase("jpeg"))
@@ -146,16 +148,18 @@ public class DrawingsEdit extends JComponent
 					}
 					catch (IOException | NullPointerException e)
 					{
-						JOptionPane.showMessageDialog(this,
-								"Write error for " + outPath.getName() + ": " + e.getMessage(), "Unable to save file",
+						JOptionPane.showMessageDialog(this, "Write error for " + outPath.getName()
+								+ ": " + e.getMessage(), "Unable to save file",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Wrong extension :( " + "\n Please provide correct extension "
+					JOptionPane.showMessageDialog(null, "Wrong extension :( "
+							+ "\n Please provide correct extension "
 							+ "\n Example: \"yourPicuteName.extension\" "
-							+ "\n Avaliable extension: png, jpg, bmp, jpeg", "Error !!!", JOptionPane.ERROR_MESSAGE);
+							+ "\n Avaliable extension: png, jpg, bmp, jpeg", "Error !!!",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			else
@@ -191,7 +195,8 @@ public class DrawingsEdit extends JComponent
 
 		AffineTransform transform = AffineTransform.getScaleInstance(sx, sy);
 		transform.translate(ty, -bufferedImage.getHeight(null));
-		AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		AffineTransformOp op = new AffineTransformOp(transform,
+				AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 		this.bufferedImage = op.filter(bufferedImage, null);
 	}
 
@@ -204,7 +209,8 @@ public class DrawingsEdit extends JComponent
 
 		AffineTransform transform = AffineTransform.getScaleInstance(sx, sy);
 		transform.translate(-bufferedImage.getWidth(null), -bufferedImage.getHeight(null));
-		AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		AffineTransformOp op = new AffineTransformOp(transform,
+				AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 		this.bufferedImage = op.filter(bufferedImage, null);
 	}
 
@@ -212,7 +218,8 @@ public class DrawingsEdit extends JComponent
 	{
 
 		AffineTransform tx = new AffineTransform();
-		tx.rotate(Math.toRadians(degrees), bufferedImage.getWidth() / 2, bufferedImage.getHeight() / 2);
+		tx.rotate(Math.toRadians(degrees), bufferedImage.getWidth() / 2,
+				bufferedImage.getHeight() / 2);
 
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 		this.bufferedImage = op.filter(bufferedImage, null);// (source,destination)

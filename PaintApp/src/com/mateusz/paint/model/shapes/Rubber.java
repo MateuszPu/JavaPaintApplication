@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Rubber extends Shape
 {
-
 	private List<Point> points = new ArrayList<>();
 
 	public Rubber(int x, int y, int x2, int y2, Color c)

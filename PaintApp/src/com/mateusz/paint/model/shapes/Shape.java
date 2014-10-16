@@ -3,7 +3,6 @@ package com.mateusz.paint.model.shapes;
 import java.awt.Color;
 import java.awt.Graphics;
 
-
 public abstract class Shape
 {
 	private int x, y;
@@ -80,5 +79,4 @@ public abstract class Shape
 	{
 		this.color = color;
 	}
-
 }

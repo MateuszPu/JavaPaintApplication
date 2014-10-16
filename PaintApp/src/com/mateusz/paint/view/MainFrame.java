@@ -9,7 +9,6 @@ import com.mateusz.paint.model.Model;
 
 public class MainFrame extends JFrame
 {
-
 	private TopMenu menuBar;
 	private DrawPanel drawPanel;
 	private ToolsMenu toolsMenu;
