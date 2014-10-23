@@ -12,9 +12,13 @@ import com.mateusz.paint.model.StaticStuffColorAndShape;
 
 public class ToolsMenu extends JPanel
 {
+	private static final long serialVersionUID = 1L;
+
 	private JButton colorButton, rectangleButton, circleButton, pencilButton, lineButton,
 			rubberButton, fillClosedShapeButton;
 	private JLabel tipText;
+	private ImageIcon rectangleIcon, circleIcon, pencilIcon, lineIcon, rubberIcon,
+			fillClosedShapeIcone;
 
 	public ToolsMenu()
 	{
@@ -31,18 +35,25 @@ public class ToolsMenu extends JPanel
 		int numberOfRows = 0; // 0 = many rows as necessary
 		this.setLayout(new GridLayout(numberOfRows, numberOfColumns));
 
+		rectangleIcon = new ImageIcon(getClass().getResource("/tools/rectangle.png"));
+		circleIcon = new ImageIcon(getClass().getResource("/tools/circle.png"));
+		pencilIcon = new ImageIcon(getClass().getResource("/tools/brush.png"));
+		lineIcon = new ImageIcon(getClass().getResource("/tools/line.png"));
+		rubberIcon = new ImageIcon(getClass().getResource("/tools/rubber.png"));
+		fillClosedShapeIcone = new ImageIcon(getClass().getResource("/tools/fill.png"));
+
 		tipText = new JLabel("Color:  ");
-		rectangleButton = new JButton(new ImageIcon("images/tools/rectangle.png"));
+		rectangleButton = new JButton(rectangleIcon);
 		rectangleButton.setToolTipText("Draw Rectangle");
-		circleButton = new JButton(new ImageIcon("images/tools/circle.png"));
+		circleButton = new JButton(circleIcon);
 		circleButton.setToolTipText("Draw Circle");
-		pencilButton = new JButton(new ImageIcon("images/tools/pencil.png"));
+		pencilButton = new JButton(pencilIcon);
 		pencilButton.setToolTipText("Draw Pencil");
-		lineButton = new JButton(new ImageIcon("images/tools/line.png"));
+		lineButton = new JButton(lineIcon);
 		lineButton.setToolTipText("Draw Line");
-		rubberButton = new JButton(new ImageIcon("images/tools/rubber.png"));
+		rubberButton = new JButton(rubberIcon);
 		rubberButton.setToolTipText("Erase drawings");
-		fillClosedShapeButton = new JButton(new ImageIcon("images/tools/fill.png"));
+		fillClosedShapeButton = new JButton(fillClosedShapeIcone);
 		fillClosedShapeButton.setToolTipText("Fill closed shape by selected Color");
 
 		colorButton = new JButton();

@@ -13,6 +13,8 @@ import com.mateusz.paint.model.shapes.Shape;
 
 public class DrawPanel extends JPanel
 {
+	private static final long serialVersionUID = 1L;
+
 	private List<Shape> shapes = new ArrayList<>();
 	private Shape temmplateShape;
 	private BufferedImage imageDrawOnPanel;

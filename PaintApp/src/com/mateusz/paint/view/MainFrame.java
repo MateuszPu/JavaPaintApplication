@@ -9,6 +9,8 @@ import com.mateusz.paint.model.Model;
 
 public class MainFrame extends JFrame
 {
+	private static final long serialVersionUID = 1L;
+
 	private TopMenu menuBar;
 	private DrawPanel drawPanel;
 	private ToolsMenu toolsMenu;

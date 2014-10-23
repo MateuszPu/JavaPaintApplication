@@ -8,10 +8,14 @@ import javax.swing.JMenuItem;
 
 public class TopMenu extends JMenuBar
 {
+	private static final long serialVersionUID = 1L;
+
 	private JMenuBar menuBar;
 	private JMenu menuFile, menuRotate, menuEdit;
 	private JMenuItem newItem, openItem, saveItem, exitItem, undoItem, rotate90RightItem,
 			rotate90RLeftItem, rotate180Item, flipVerticalItem, flipHorizontalItem;
+	private ImageIcon exitIcon, newIcon, openIcon, saveIcon, undoIcon, rotate90RightIcon,
+			rotate90RLeftIcon, rotate180Icon, flipVerticalIcon, flipHorizontalIcon;
 
 	public TopMenu()
 	{
@@ -21,19 +25,31 @@ public class TopMenu extends JMenuBar
 	{
 		menuBar = new JMenuBar();
 
+		exitIcon = new ImageIcon(getClass().getResource("/menu/exit.png"));
+		newIcon = new ImageIcon(getClass().getResource("/menu/new.png"));
+		openIcon = new ImageIcon(getClass().getResource("/menu/open.png"));
+		saveIcon = new ImageIcon(getClass().getResource("/menu/save.png"));
+		undoIcon = new ImageIcon(getClass().getResource("/menu/undo.png"));
+
+		rotate90RightIcon = new ImageIcon(getClass().getResource("/menu/rotate90right.png"));
+		rotate90RLeftIcon = new ImageIcon(getClass().getResource("/menu/rotate90left.png"));
+		rotate180Icon = new ImageIcon(getClass().getResource("/menu/rotate180.png"));
+		flipVerticalIcon = new ImageIcon(getClass().getResource("/menu/flipvertical.png"));
+		flipHorizontalIcon = new ImageIcon(getClass().getResource("/menu/fliphorizontal.png"));
+
 		// menu file
 		menuFile = new JMenu("File");
 		menuBar.add(menuFile);
 
 		// add items to menu "File"
-		newItem = new JMenuItem("New...", new ImageIcon("images/menu/new.png"));
+		newItem = new JMenuItem("New...", newIcon);
 		menuFile.add(newItem);
-		openItem = new JMenuItem("Open image...", new ImageIcon("images/menu/open.png"));
+		openItem = new JMenuItem("Open image...", openIcon);
 		menuFile.add(openItem);
-		saveItem = new JMenuItem("Save image...", new ImageIcon("images/menu/save.png"));
+		saveItem = new JMenuItem("Save image...", saveIcon);
 		menuFile.add(saveItem);
 		menuFile.addSeparator();
-		exitItem = new JMenuItem("Exit...", new ImageIcon("images/menu/exit.png"));
+		exitItem = new JMenuItem("Exit...", exitIcon);
 		menuFile.add(exitItem);
 
 		// menu edit
@@ -41,7 +57,7 @@ public class TopMenu extends JMenuBar
 		menuBar.add(menuEdit);
 
 		// add items to menu "Edit"
-		undoItem = new JMenuItem("Undo", new ImageIcon("images/menu/undo.png"));
+		undoItem = new JMenuItem("Undo", undoIcon);
 		// undoItem.setEnabled(false);
 		menuEdit.add(undoItem);
 
@@ -50,19 +66,15 @@ public class TopMenu extends JMenuBar
 		menuBar.add(menuRotate);
 
 		// add items to menu "Rotate"
-		rotate90RightItem = new JMenuItem("Rotate 90° right", new ImageIcon(
-				"images/menu/rotate90right.png"));
+		rotate90RightItem = new JMenuItem("Rotate 90° right", rotate90RightIcon);
 		menuRotate.add(rotate90RightItem);
-		rotate90RLeftItem = new JMenuItem("Rotate 90° left", new ImageIcon(
-				"images/menu/rotate90left.png"));
+		rotate90RLeftItem = new JMenuItem("Rotate 90° left", rotate90RLeftIcon);
 		menuRotate.add(rotate90RLeftItem);
-		rotate180Item = new JMenuItem("Rotate 180°", new ImageIcon("images/menu/rotate180.png"));
+		rotate180Item = new JMenuItem("Rotate 180°", rotate180Icon);
 		menuRotate.add(rotate180Item);
-		flipVerticalItem = new JMenuItem("Flip Vertical", new ImageIcon(
-				"images/menu/flipvertical.png"));
+		flipVerticalItem = new JMenuItem("Flip Vertical", flipVerticalIcon);
 		menuRotate.add(flipVerticalItem);
-		flipHorizontalItem = new JMenuItem("Flip Horizontal", new ImageIcon(
-				"images/menu/fliphorizontal.png"));
+		flipHorizontalItem = new JMenuItem("Flip Horizontal", flipHorizontalIcon);
 		menuRotate.add(flipHorizontalItem);
 
 	}

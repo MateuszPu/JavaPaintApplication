@@ -19,6 +19,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class DrawingsEdit extends JComponent
 {
+	private static final long serialVersionUID = 1L;
+
 	private BufferedImage bufferedImage;
 	private Graphics2D graphics2D;
 	private Stack<BufferedImage> undoImageList = new Stack<>();
