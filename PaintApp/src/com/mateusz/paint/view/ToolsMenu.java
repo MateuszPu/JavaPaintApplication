@@ -25,8 +25,6 @@ public class ToolsMenu extends JPanel
 		int width = 60;
 		int height = 210;
 		setPreferredSize(new Dimension(width, height));
-		setMinimumSize(new Dimension(width, height));
-		setMaximumSize(new Dimension(width, height));
 	}
 
 	public void setTools()

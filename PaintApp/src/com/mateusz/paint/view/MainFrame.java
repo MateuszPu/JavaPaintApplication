@@ -2,6 +2,7 @@ package com.mateusz.paint.view;
 
 import java.awt.BorderLayout;
 import java.awt.HeadlessException;
+import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -37,8 +38,13 @@ public class MainFrame extends JFrame
 
 		setSize(width, height);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setVisible(true);
+	}
+
+	public void addExitListener(WindowListener listenerForExit)
+	{
+		addWindowListener(listenerForExit);
 	}
 
 	public void initializeTopMenuComponents()

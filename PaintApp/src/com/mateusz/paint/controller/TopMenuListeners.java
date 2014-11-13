@@ -3,6 +3,8 @@ package com.mateusz.paint.controller;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +33,8 @@ public class TopMenuListeners extends SuperControllerForPanel
 		drawPanel = super.getDrawPanel();
 		drawingsEdit = super.getDrawingsEdit();
 		topMenuButtons = view.getTopMenu();
+
+		view.addExitListener(new DefaultCloseOperation());
 
 		topMenuButtons.addNewListener(new NewMenuListener());
 		topMenuButtons.addOpenListener(new OpenMenuListener());
@@ -131,22 +135,7 @@ public class TopMenuListeners extends SuperControllerForPanel
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			int result = JOptionPane.showConfirmDialog(null, "Do you want to save your progress?",
-					"Save progress?", JOptionPane.YES_NO_CANCEL_OPTION);
-			currentDrawingsToImage();
-
-			switch (result)
-			{
-			case JOptionPane.YES_OPTION:
-				drawingsEdit.saveImageToFile();
-				System.exit(0);
-				break;
-			case JOptionPane.NO_OPTION:
-				System.exit(0);
-				break;
-			case JOptionPane.CANCEL_OPTION:
-				break;
-			}
+			exitMethod();
 		}
 	}
 
@@ -249,6 +238,64 @@ public class TopMenuListeners extends SuperControllerForPanel
 			drawPanel.setImageToDraw(drawingsEdit.getBufferedImage());
 			drawPanel.repaint();
 			drawingsEdit.addImageToUndoList();
+		}
+	}
+
+	class DefaultCloseOperation implements WindowListener
+	{
+		public void windowClosing(WindowEvent e)
+		{
+			exitMethod();
+		}
+
+		// required to implement from WindowListener but unneeded
+		public void windowActivated(WindowEvent e)
+		{
+		}
+
+		// required to implement from WindowListener but unneeded
+		public void windowClosed(WindowEvent e)
+		{
+		}
+
+		// required to implement from WindowListener but unneeded
+		public void windowDeactivated(WindowEvent e)
+		{
+		}
+
+		// required to implement from WindowListener but unneeded
+		public void windowDeiconified(WindowEvent e)
+		{
+		}
+
+		// required to implement from WindowListener but unneeded
+		public void windowIconified(WindowEvent e)
+		{
+		}
+
+		// required to implement from WindowListener but unneeded
+		public void windowOpened(WindowEvent e)
+		{
+		}
+	}
+
+	private void exitMethod()
+	{
+		int result = JOptionPane.showConfirmDialog(null, "Do you want to save your progress?",
+				"Save progress?", JOptionPane.YES_NO_CANCEL_OPTION);
+		currentDrawingsToImage();
+
+		switch (result)
+		{
+		case JOptionPane.YES_OPTION:
+			drawingsEdit.saveImageToFile();
+			System.exit(0);
+			break;
+		case JOptionPane.NO_OPTION:
+			System.exit(0);
+			break;
+		case JOptionPane.CANCEL_OPTION:
+			break;
 		}
 	}
 }
